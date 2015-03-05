@@ -1,4 +1,4 @@
-
+package src.oata;
 public class Test {
 
 	public static void main(String[] args) {

@@ -1,0 +1,39 @@
+<project name="Test" basedir="." default="run">
+
+    <property name="src.dir"     value="src"/>
+
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="testC.dir"    value="testC"/>
+    <property name="tests.dir"    value="tests"/>
+    <property name="Doc.dir"      value="Doc"/>
+
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${testC.dir}"/>
+        <delete dir="${Doc.dir}"/>
+    </target>
+
+    <target name="build">
+        <mkdir dir="${testC.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+        <javac srcdir="tests" destdir="${testC.dir}"/>
+    </target>
+
+
+    <target name="run" depends="build">
+        <java classname="Test" classpath="${classes.dir}" fork="true"/>
+    </target>
+
+    <target name="test">
+    	<java  classname="tests.Test1" classpath="${testC.dir}" fork="true"/>	
+    </target>
+
+    <target name="javadoc" >
+        <mkdir dir="${Doc.dir}"/>
+        <javadoc sourcepath="." destdir="${Doc.dir}" packagenames="src.oata"/>
+    </target>
+
+</project>
