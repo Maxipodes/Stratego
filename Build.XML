@@ -2,29 +2,28 @@
 
     <property name="src.dir"     value="src"/>
 
-    <property name="build.dir"   value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="bin.dir"   value="bin"/>
     <property name="testC.dir"    value="testC"/>
     <property name="tests.dir"    value="tests"/>
     <property name="Doc.dir"      value="Doc"/>
 
 
     <target name="clean">
-        <delete dir="${build.dir}"/>
+        <delete dir="${bin.dir}"/>
         <delete dir="${testC.dir}"/>
         <delete dir="${Doc.dir}"/>
     </target>
 
     <target name="build">
         <mkdir dir="${testC.dir}"/>
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+        <mkdir dir="${bin.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${bin.dir}"/>
         <javac srcdir="tests" destdir="${testC.dir}"/>
     </target>
 
 
     <target name="run" depends="build">
-        <java classname="Test" classpath="${classes.dir}" fork="true"/>
+        <java classname="Test" classpath="${bin.dir}" fork="true"/>
     </target>
 
     <target name="test">
@@ -33,7 +32,7 @@
 
     <target name="javadoc" >
         <mkdir dir="${Doc.dir}"/>
-        <javadoc sourcepath="." destdir="${Doc.dir}" packagenames="src.oata"/>
+        <javadoc sourcepath="${src.dir}" destdir="${Doc.dir}" packagenames="main"/>
     </target>
 
 </project>

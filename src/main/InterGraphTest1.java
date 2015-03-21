@@ -1,3 +1,4 @@
+package main;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.GraphicsDevice;
