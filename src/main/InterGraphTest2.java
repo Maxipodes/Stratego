@@ -27,13 +27,14 @@ public class InterGraphTest2 {
 		JButton button = new JButton("Repair");
 		MyPanel panel =new MyPanel();
 		frame.add(panel);
-		
+		/*
 		button.addActionListener(new MonListenner(){
 			public void actionPerformed(ActionEvent e){
 				button.setText("Pentakil !!!");
 			}
 			
 		});
+		*/
 		panel.add(button);
 		
 	}
