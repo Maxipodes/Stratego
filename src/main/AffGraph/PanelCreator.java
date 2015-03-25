@@ -14,51 +14,32 @@ import javax.swing.JPanel;
  * @author Maxime
  *
  */
-public class Displayer {
-
+public class PanelCreator {
+	
 	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-	
-	private JPanel[] panelDisplayer = new JPanel[2];      //Contient les différents conteneurs a afficher
-	private int currentPanel ;
-	static Window window;
-	
-	public Displayer(){
-		window = new Window();
-		panelDisplayer[0] =  createMenu();
-		panelDisplayer[1] =  createModSelect();
-		currentPanel = 0;
-	}
-	
-	public void  switchPanel(int a){
-		window.remove(panelDisplayer[currentPanel]);
-		currentPanel +=a;
-		window.add((panelDisplayer[currentPanel]));
-	}
-	/**
-	 * @param null
 	 * @return un conteneur qui contient le menu principal
 	 */
-	private static JPanel createMenu(){
+	public static JPanel createMenu(Window wdw){
 		JButton buttonPlay = new JButton("Jouer");
-		buttonPlay.addActionListener(new SwitchListenner(window));
+		buttonPlay.addActionListener(new SwitchListenner(wdw));
 		JPanel panel=new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		panel.add(buttonPlay , c);    //Place le buttonPlay au centre du conteneur
 		return panel;
 	}
 	
-	private static JPanel createModSelect(){
+
+	/**
+	 * @return un conteneur qui contient le panel des options de jeu
+	 */
+	public static JPanel createModSelect(Window wdw){
 		JButton classicMod = new JButton("Mode Classic");
 		JButton previousButton = new JButton("Retour");
+		previousButton.addActionListener(new SwitchListenner(wdw));
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(classicMod, BorderLayout.CENTER);
 		panel.add(previousButton, BorderLayout.WEST);
 		return panel;
 	}
+
 }

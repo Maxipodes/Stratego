@@ -3,18 +3,11 @@
  */
 package main.AffGraph;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,22 +17,22 @@ import javax.swing.JPanel;
  */
 public class Window extends JFrame {
 
+	
+	private JPanel[] panelDisplayer = new JPanel[2];      //Contient les différents panels a afficher
+	private int currentPanel ;
+	private JFrame frame ;
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Window.init();
+		new Window();
 
 	}
 	
-	private JPanel[] panelDisplayer = new JPanel[2];      //Contient les différents conteneurs a afficher
-	private int currentPanel ;
-	private static  Window window ;
 	/**
 	 * Construit la fenetre de jeu de taille maximale
-	 * 
-	 * @param null
-	 * @return void
+	 *
 	 */
 	
 	public Window(){
@@ -52,23 +45,24 @@ public class Window extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new WindowAdapter(frame));
-		frame.add(createMenu());
-
 		
-		panelDisplayer[0] =  createMenu();
-		panelDisplayer[1] =  createModSelect();
+		panelDisplayer[0] =  PanelCreator.createMenu(this);
+		panelDisplayer[1] =  PanelCreator.createModSelect(this);
 		currentPanel = 0;
 	
-	}
-	
-	public static void init(){
-		window = new Window();
+		frame.add(panelDisplayer[0]);
 		
+		this.frame = frame;
+	
 	}
 	
+	public JFrame getFrame(){
+		return frame;
+	}
+
 	/**
-	 * @param null
-	 * @return la résolution de l'écran
+	 * 
+	 * @return la résolution maximum de l'écran
 	 */
 	private static Rectangle getMaxBounds(){
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -76,33 +70,19 @@ public class Window extends JFrame {
 		GraphicsConfiguration gc = gd.getDefaultConfiguration();
 		return gc.getBounds();
 	}
+	/**
+	 * Methode qui permet de changer le contenu de la 
+	 * @param a -1 pour retourner au panel precedent , 1 pour passer au panel suivant
+	 */
 	
 	public void  switchPanel(int a){
-		window.remove(panelDisplayer[currentPanel]); // !!!!!!!!!!!!!
+		frame.getContentPane().remove(panelDisplayer[currentPanel]);
 		currentPanel +=a;
-		window.add((panelDisplayer[currentPanel]));
-	}
-	/**
-	 * @param null
-	 * @return un conteneur qui contient le menu principal
-	 */
-	private static JPanel createMenu(){
-		JButton buttonPlay = new JButton("Jouer");
-		buttonPlay.addActionListener(new SwitchListenner(window));
-		JPanel panel=new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		panel.add(buttonPlay , c);    //Place le buttonPlay au centre du conteneur
-		return panel;
+		frame.add(panelDisplayer[currentPanel]);
+		frame.validate();
+		frame.repaint();
 	}
 	
-	private static JPanel createModSelect(){
-		JButton classicMod = new JButton("Mode Classic");
-		JButton previousButton = new JButton("Retour");
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(classicMod, BorderLayout.CENTER);
-		panel.add(previousButton, BorderLayout.WEST);
-		return panel;
-	}
 	
 
 }

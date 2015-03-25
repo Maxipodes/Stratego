@@ -7,17 +7,17 @@ import javax.swing.JButton;
 
 public class SwitchListenner implements ActionListener{
 	
-	Window frame;
+	Window window;
 	
-	public SwitchListenner(Window frm){
-		frame = frm;
+	public SwitchListenner(Window wdw){
+		window = wdw;
 	}
 	
 	public void actionPerformed(ActionEvent e){
 		if(((JButton) e.getSource()).getText()=="Retour")
-			frame.switchPanel(-1);
+			window.switchPanel(-1);
 		else
-			frame.switchPanel(1);
+			window.switchPanel(1);
 			
 	}
 	
