@@ -3,11 +3,17 @@
  */
 package main.AffGraph;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,7 +24,7 @@ import javax.swing.JPanel;
 public class Window extends JFrame {
 
 	
-	private JPanel[] panelDisplayer = new JPanel[2];      //Contient les différents panels a afficher
+	private JPanel[] panelDisplayer = new JPanel[3];      //Contient les différents panels a afficher
 	private int currentPanel ;
 	private JFrame frame ;
 
@@ -46,8 +52,9 @@ public class Window extends JFrame {
 		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new WindowAdapter(frame));
 		
-		panelDisplayer[0] =  PanelCreator.createMenu(this);
-		panelDisplayer[1] =  PanelCreator.createModSelect(this);
+		panelDisplayer[0] =  createMenu();
+		panelDisplayer[1] =  createModSelect();
+		panelDisplayer[2] = createGamePanel();
 		currentPanel = 0;
 	
 		frame.add(panelDisplayer[0]);
@@ -83,6 +90,54 @@ public class Window extends JFrame {
 		frame.repaint();
 	}
 	
+	/** crée un conteneur qui contient le menu principal
+	 * @return un Jpannel 
+	 */
+	public JPanel createMenu(){
+		JButton buttonPlay = new JButton("Jouer");
+		buttonPlay.addActionListener(new SwitchListenner(this));
+		JPanel panel=new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		panel.add(buttonPlay , c);    //Place le buttonPlay au centre du conteneur
+		return panel;
+	}
 	
+
+	/** crée un conteneur qui contient le panel des options de jeu
+	 * @return un Jpannel
+	 */
+	public JPanel createModSelect(){
+		JButton classicMod = new JButton("Mode Classic");
+		JButton previousButton = new JButton("Retour");
+		previousButton.addActionListener(new SwitchListenner(this));
+		classicMod.addActionListener(new SwitchListenner(this));
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(classicMod, BorderLayout.CENTER);
+		panel.add(previousButton, BorderLayout.WEST);
+		return panel;
+	}
+	
+	/**
+	 * Crée un conteneur qui affiche le plateau de jeu
+	 * @return unJPanel
+	 */
+	public JPanel createGamePanel(){
+		
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		JPanel killedPiecePanel = new JPanel();
+		
+		new BoxLayout( killedPiecePanel,BoxLayout.Y_AXIS);
+		JPanel lostPiecePanel = new JPanel();
+		
+		new BoxLayout(lostPiecePanel ,BoxLayout.Y_AXIS);
+		JPanel gamePanel = new ImagePanel("Logo.jpg");
+		
+		mainPanel.add(killedPiecePanel, BorderLayout.WEST);
+		mainPanel.add(lostPiecePanel, BorderLayout.EAST);
+		mainPanel.add(gamePanel, BorderLayout.CENTER);
+		
+		return mainPanel;
+	}
+
 
 }
