@@ -4,7 +4,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-
+/**
+ * Cette classe est un listenner invoquant la méthode switchpanel a chaque pression de bouton 
+ * d un objet window
+ * @author Maxime
+ *
+ */
 public class SwitchListenner implements ActionListener{
 	
 	Window window;

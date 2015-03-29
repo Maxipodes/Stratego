@@ -9,9 +9,6 @@ package main.AffGraph;
  */
 public class AffMove {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 
 	}

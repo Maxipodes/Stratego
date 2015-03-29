@@ -7,7 +7,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+
 
 
 import javax.imageio.ImageIO;
@@ -15,16 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
+ * Cette classe permet la création de panels contenant une image
  * @author Maxime
  *
  */
 public class ImagePanel extends JPanel {
 	
 	String nameImage;
-
-	/**
-	 * @param args
-	 */
 
 	public static void main(String[] args){
 		
@@ -34,11 +33,14 @@ public class ImagePanel extends JPanel {
 		frame.setLocation(0, 0);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		ImagePanel image = new ImagePanel("Logo.jpg");
+		ImagePanel image = new ImagePanel("Lo.jpg");
 		frame.setContentPane(image);
 
 	}
-	
+	/**
+	 * Crée un panel contenant une image
+	 * @param nomImage, le nom de l image a importer dans le panel
+	 */
 	public ImagePanel(String nomImage){
 		super();
 		this.nameImage = nomImage;

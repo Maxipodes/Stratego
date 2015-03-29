@@ -4,7 +4,6 @@
 package main.AffGraph;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -17,9 +16,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+
+
 /**
  * @author Maxime
- *
+ *Cette classe permet la création d un objet Window qui est une fenetre 
+ *dont on peut changer le conntenu
  */
 public class Window extends JFrame {
 
@@ -28,9 +30,6 @@ public class Window extends JFrame {
 	private int currentPanel ;
 	private JFrame frame ;
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		new Window();
 
@@ -62,10 +61,6 @@ public class Window extends JFrame {
 		this.frame = frame;
 	
 	}
-	
-	public JFrame getFrame(){
-		return frame;
-	}
 
 	/**
 	 * 
@@ -78,7 +73,7 @@ public class Window extends JFrame {
 		return gc.getBounds();
 	}
 	/**
-	 * Methode qui permet de changer le contenu de la 
+	 * Methode qui permet de changer le contenu de l objet Window grace au panelDisplayer
 	 * @param a -1 pour retourner au panel precedent , 1 pour passer au panel suivant
 	 */
 	
@@ -93,7 +88,7 @@ public class Window extends JFrame {
 	/** crée un conteneur qui contient le menu principal
 	 * @return un Jpannel 
 	 */
-	public JPanel createMenu(){
+	private JPanel createMenu(){
 		JButton buttonPlay = new JButton("Jouer");
 		buttonPlay.addActionListener(new SwitchListenner(this));
 		JPanel panel=new JPanel(new GridBagLayout());
@@ -106,7 +101,7 @@ public class Window extends JFrame {
 	/** crée un conteneur qui contient le panel des options de jeu
 	 * @return un Jpannel
 	 */
-	public JPanel createModSelect(){
+	private JPanel createModSelect(){
 		JButton classicMod = new JButton("Mode Classic");
 		JButton previousButton = new JButton("Retour");
 		previousButton.addActionListener(new SwitchListenner(this));
@@ -121,7 +116,7 @@ public class Window extends JFrame {
 	 * Crée un conteneur qui affiche le plateau de jeu
 	 * @return unJPanel
 	 */
-	public JPanel createGamePanel(){
+	private JPanel createGamePanel(){
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		JPanel killedPiecePanel = new JPanel();
