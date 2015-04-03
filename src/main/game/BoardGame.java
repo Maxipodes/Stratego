@@ -1,76 +1,108 @@
 package main.game;
 
-
 public class BoardGame
 {
 	public static void main(String[] args)
 	{
-		Piece[][] board=fullInBoardGame();
-		Boolean a= AI.canMove(board, new Position(1,2) , new Position(1, 3));
-		System.out.println(a);
+		BoardGame boardGame = getBoardGame();
+		boardGame.randFillInBoardGame(charachter);
+		//System.out.println(boardGame[0][0].NAME);
+		boardGame.printTab();
+		BoardGame bob = getBoardGame();
+		System.out.println("\n");
+		bob.printTab();
+		bob.setMoveCharacter(bob.BOARD[3][0].position,4,0);		
+		System.out.println("\n");
+		bob.printTab();
+		//setMoveCharachter(boardGame,boardGame[3][0].position,4,0);
+		//System.out.println("\n");
+		//printTab(boardGame);
+		
 	}
+	
+	static int LENGTHX;
+	int LENGTHY;
+	Piece[][] BOARD;
+	
+	
+	
+	private static BoardGame instance = null;
+	
+	public static BoardGame getBoardGame()
+	{
+		if (instance == null)
+			instance =  new BoardGame();
+		return instance;
+		
+	}
+	
+	
+	public BoardGame()
+	{
+		LENGTHX = 10;
+		LENGTHY = 10;
+		BOARD = createBoardGame(LENGTHX,LENGTHY);
+	}
+	
+	
+	
 	
 	public static Piece[][] createBoardGame(int lengthX, int lengthY)
 	{
-		Lake lake = new Lake();
-		Piece[][] list = createBoard(lengthX,lengthY);
-		list[2][4] = lake.construct();
-		list[3][4] = lake.construct();
-		list[2][5] = lake.construct();
-		list[3][5] = lake.construct();
-		list[7][4] = lake.construct();
-		list[7][5] = lake.construct();
-		list[6][5] = lake.construct();
-		list[6][4] = lake.construct();
+		Piece[][] list = new Piece[lengthX][lengthY];
+		list[4][2] = new Lake(4,2);
+		list[4][3] = new Lake(4,3);
+		list[5][2] = new Lake(5,2);
+		list[5][3] = new Lake(5,3);
+		list[4][7] = new Lake(4,7);
+		list[5][7] = new Lake(5,7);
+		list[5][6] = new Lake(5,6);
+		list[4][6] = new Lake(4,6);
 		
 		return list;
 	}
-	
-	
-	public static Piece[][] boardGame = createBoardGame(10,10);
-	
-	public static Piece[] character = {new Spy(),new Scout(),new Miner(),new Sergeant(),new Lieutenant(),new Captain(),new Major(),new Colonel(),new General(),new Marshal(),new Flag(),new Bomb()};
-	
-	public static Piece[][] createBoard(int dimensionX, int dimensionY)
-	{
-		Piece[][] list = new Piece[dimensionX][dimensionY];
-		return list;
-	}
-	
-	
-	public static Piece[][] fullInBoardGame()
-	{
-		Piece[][] board= new Piece[10][4];
-		for(Piece p:character){
-			for(int i=0; i<p.NUMBER; i++){
-				for(int x=0; x<10; x++){
-					for(int y=0; y<4; y++){
-						board[x][y] = p.construct();
-					}
-				}
+	public void printTab()
+	{ 
+		for(int i=0; i < BOARD.length; i++)
+		{
+			for(int j=0; j < BOARD[0].length;j ++)
+			{
+				if (isEmpty(i, j) == false)
+					System.out.print(" "+BOARD[i][j].NAME +" | "+ i + ","+ j+" || ");	
+				else 
+					System.out.print(" X"+" | "+i+","+j+" || ");
 			}
+			System.out.println();
 		}
-		return board;
+	}
+
+	public static BoardGame boardGame = getBoardGame();
+	
+	public static Piece[] charachter = {new Spy(),new Scout(),new Miner(),new Sergeant(),new Lieutenant(),new Captain(),new Major(),new Colonel(),new General(),new Marshal(),new Flag(),new Bomb()};
+	
+	public void fillIn(Piece p, int x, int y)
+	{
+			Piece piece = p.construct();
+			piece.setPosition(x, y);
+			BOARD[x][y] = piece;
 	}
 	
-	public static boolean isEmpty(Piece[][] board, Position p)
+	public boolean isEmpty(int x, int y)
 	{
-		if (board[p.positionX][p.positionY] == null)
+		if (BOARD[x][y] == null)
 			return true;
 		return false;		
 	}
 	
 	
-	public static void setMoveCharacter(Piece[][] board, Position p, Position d)
+	public void setMoveCharacter(Position p, int x , int y)
 	{
-		
-		Position intermediatePosition;
-		intermediatePosition = p;
-		board[p.positionX][p.positionY] = null;
-		board[d.positionX][d.positionY] = board[intermediatePosition.positionX][intermediatePosition.positionY];
+		Piece move = BOARD[p.positionX][p.positionY];
+		BOARD[p.positionX][p.positionY] = null;
+		BOARD[x][y] = move;
+		move.setPosition(x,y);
 	}
 	
-	static int randomNum = 0 + (int)(Math.random()*4);
 
 	public static int countNumber(Piece[] list)
 	{
@@ -82,13 +114,60 @@ public class BoardGame
 		return count;
 	}
 			
-	public static void swap(Piece[][] board, Position p, Position d)
+	public void swap(Position p, Position d)
 	{
-		Position intermediatePosition;
-		intermediatePosition = p;
-		board[p.positionX][p.positionY] = null;
-		board[d.positionX][d.positionY] = board[intermediatePosition.positionX][intermediatePosition.positionY];
+		Piece swap = BOARD[p.positionX][p.positionY];
+		Position A = p;
+		Position B = d;
+		BOARD[p.positionX][p.positionY] = BOARD[d.positionX][d.positionY];
+		BOARD[d.positionX][d.positionY] = swap;
+		BOARD[p.positionX][p.positionY].setPosition(A.positionX,A.positionY);
+		BOARD[d.positionX][d.positionY].setPosition(B.positionX,B.positionY);	
 	}
+	
+	
+	
+	public void fillInBoardGame(Piece[] list)
+	{
+		
+		int x=0;
+		int numberPiece = 0;
+		for(int k = 0; k < 4; k++)
+		{
+			for(int i = 0; i < 10; i++)
+			{
+				Piece currentPiece =list[x];
+				if(numberPiece<currentPiece.NUMBER)
+				{
+					fillIn(currentPiece, k, i);
+					numberPiece++;
+				}
+				if(numberPiece==currentPiece.NUMBER)
+				{
+					x++;
+					numberPiece=0;
+				}
+			}
+		}
+				
+				
+	}			 
+	public  void randFillInBoardGame(Piece[] list)
+	{
+		fillInBoardGame(list);
+		for(int k = 0; k < 4; k++)
+		{
+			for(int i = 0; i < 10; i++)
+			{
+				int randX = (int)(Math.random()*4);
+				int randY = (int)(Math.random()*10);
+				Piece p = BOARD[k][i];
+				Piece l = BOARD[randX][randY];
+				swap(p.position,l.position);
+			}
+		}
+	}
+			
 	
 }
 

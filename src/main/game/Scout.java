@@ -8,7 +8,7 @@ public class Scout extends Piece
 		RANK = 2;
 		NUMBER = 8;
 		WEAKNESS = 0;	
-		MOVE = BoardGame.boardGame.length;		
+		MOVE = BoardGame.LENGTHX;		
 		currentNumber = 0;
 	}
 

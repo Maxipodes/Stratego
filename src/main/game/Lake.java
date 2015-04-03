@@ -17,5 +17,17 @@ public class Lake extends Piece
 	{
 		return new Lake();
 	}
+
+	public Lake(int x, int y)
+	{
+		NAME = "Lake";
+		RANK = 18000000;
+		NUMBER = 8;
+		WEAKNESS = 0;	
+		MOVE = 0;		
+		currentNumber = 0;
+		position = new Position(x, y);
+	}
+
 	
 }

@@ -6,19 +6,19 @@ public class Position
 	{
 	}
 	
-	int positionX;
-	int positionY;	
+	public int positionX;
+	public int positionY;	
 	
 	public Position(int positionX, int positionY)
 	{
 		this.positionX = positionX;
 		this.positionY = positionY;	
 	}
-	
-	public String toString(){
-		String a = "("+positionX+", "+positionY+")";
-		return a;
+	public String toString()
+	{
+		return ("("+positionX+","+positionY+")");
 	}
+
 }
 	
 

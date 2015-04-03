@@ -4,12 +4,6 @@ public class Marshal extends Piece
 {
 	public static void main(String[] args)
 	{
-		Piece bob = new Marshal();
-		System.out.println(bob.NAME);
-		bob.setPosition(3,1);
-		System.out.println(bob.position);
-		bob.setTeam(1);
-		System.out.println(bob.TEAM);
 	}
 	public Marshal() 
 	{	

@@ -17,4 +17,5 @@ public class Sergeant extends Piece
 		return new Sergeant();
 	}
 
+	
 }

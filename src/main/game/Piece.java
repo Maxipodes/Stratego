@@ -77,9 +77,4 @@ public abstract class Piece
 			return p1.TEAM == p2.TEAM;
 	}
 	
-	public String toString(){
-		String a = String.valueOf(RANK);
-		return a;
-	}
-	
 }

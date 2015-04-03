@@ -1,12 +1,9 @@
 package main.game;
 
-
 public class AI
 {
 	public static void main(String[] args)
 	{
-		Piece[][] boardGame =BoardGame.createBoardGame(10, 10);
-		
 		
 	}
 	public static Piece[][] memorize = BoardGame.createBoardGame(10,10);
@@ -55,7 +52,7 @@ public class AI
 			
 	public static int returnDirection(Piece[][] board, Position p, Position d)
 	{
-		if (p.positionY == d.positionY)
+		if (p.positionX == d.positionX)
 		{
 			if (p.positionX > d.positionX)
 			{	
@@ -68,7 +65,7 @@ public class AI
 				return right;
 			}	
 		}
-		else if(p.positionX == d.positionX)
+		else if(p.positionY == d.positionY)
 		{	
 			if(p.positionY > d.positionY)
 			{
@@ -87,7 +84,7 @@ public class AI
 	{
 		if (board[p.positionX][p.positionY].MOVE == 0)
 			return false;		
-		else if(board[p.positionX][p.positionY].MOVE != 1)
+		else if(board[p.positionX][p.positionY].MOVE == 1)
 		{
 			if (numberFriendsNextTo(board, p) == 4)
 				return false;

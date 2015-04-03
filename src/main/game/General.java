@@ -12,7 +12,7 @@ public class General extends Piece
 		currentNumber = 0;
 	}
 
-	public  General construct()
+	public General construct()
 	{
 		return new General();
 	}

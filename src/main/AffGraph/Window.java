@@ -4,17 +4,21 @@
 package main.AffGraph;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
 import javax.swing.JPanel;
+
 
 
 
@@ -28,11 +32,30 @@ public class Window extends JFrame {
 	
 	private JPanel[] panelDisplayer = new JPanel[3];      //Contient les différents panels a afficher
 	private int currentPanel ;
-	private JFrame frame ;
 
 	public static void main(String[] args) {
 		new Window();
 
+	}
+	
+	/**
+	 * Cette classe est un listenner invoquant la méthode switchpanel a chaque pression de bouton 
+	 * d un objet window
+	 * @author Maxime
+	 *
+	 */
+	public class SwitchListenner implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e){
+			
+			Object source = e.getSource();
+			JButton button = (JButton) source;
+			
+			if(button.getText()=="Retour")
+				Window.this.switchPanel(-1);
+			else
+				Window.this.switchPanel(1);	
+		}
 	}
 	
 	/**
@@ -41,24 +64,25 @@ public class Window extends JFrame {
 	 */
 	
 	public Window(){
-		JFrame frame= new JFrame();
+		super();
 		Rectangle bounds = getMaxBounds();
-		frame.setSize(bounds.width, bounds.height);
-		frame.setTitle("Stratego");
-		frame.setLocation(0, 0);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.addWindowListener(new WindowAdapter(frame));
+		super.setSize(bounds.width, bounds.height);
+		super.setTitle("Stratego");
+		super.setLocation(0, 0);
+		super.setVisible(true);
+		super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		super.setLocationRelativeTo(null);
+		super.addWindowListener(new WindowAdapter(this));
 		
 		panelDisplayer[0] =  createMenu();
 		panelDisplayer[1] =  createModSelect();
-		panelDisplayer[2] = createGamePanel();
+		panelDisplayer[2] = new MainPanel();
 		currentPanel = 0;
 	
-		frame.add(panelDisplayer[0]);
+		super.add(panelDisplayer[0]);
+		super.paintComponents(getGraphics());
 		
-		this.frame = frame;
+		
 	
 	}
 
@@ -77,12 +101,12 @@ public class Window extends JFrame {
 	 * @param a -1 pour retourner au panel precedent , 1 pour passer au panel suivant
 	 */
 	
-	public void  switchPanel(int a){
-		frame.getContentPane().remove(panelDisplayer[currentPanel]);
+	private void  switchPanel(int a){
+		super.getContentPane().remove(panelDisplayer[currentPanel]);
 		currentPanel +=a;
-		frame.add(panelDisplayer[currentPanel]);
-		frame.validate();
-		frame.repaint();
+		super.add(panelDisplayer[currentPanel]);
+		super.validate();
+		super.repaint();
 	}
 	
 	/** crée un conteneur qui contient le menu principal
@@ -90,7 +114,7 @@ public class Window extends JFrame {
 	 */
 	private JPanel createMenu(){
 		JButton buttonPlay = new JButton("Jouer");
-		buttonPlay.addActionListener(new SwitchListenner(this));
+		buttonPlay.addActionListener(new SwitchListenner());
 		JPanel panel=new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		panel.add(buttonPlay , c);    //Place le buttonPlay au centre du conteneur
@@ -104,35 +128,16 @@ public class Window extends JFrame {
 	private JPanel createModSelect(){
 		JButton classicMod = new JButton("Mode Classic");
 		JButton previousButton = new JButton("Retour");
-		previousButton.addActionListener(new SwitchListenner(this));
-		classicMod.addActionListener(new SwitchListenner(this));
+		previousButton.addActionListener(new SwitchListenner());
+		classicMod.addActionListener(new SwitchListenner());
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(classicMod, BorderLayout.CENTER);
 		panel.add(previousButton, BorderLayout.WEST);
 		return panel;
 	}
 	
-	/**
-	 * Crée un conteneur qui affiche le plateau de jeu
-	 * @return unJPanel
-	 */
-	private JPanel createGamePanel(){
-		
-		JPanel mainPanel = new JPanel(new BorderLayout());
-		JPanel killedPiecePanel = new JPanel();
-		
-		new BoxLayout( killedPiecePanel,BoxLayout.Y_AXIS);
-		JPanel lostPiecePanel = new JPanel();
-		
-		new BoxLayout(lostPiecePanel ,BoxLayout.Y_AXIS);
-		JPanel gamePanel = new ImagePanel("Logo.jpg");
-		
-		mainPanel.add(killedPiecePanel, BorderLayout.WEST);
-		mainPanel.add(lostPiecePanel, BorderLayout.EAST);
-		mainPanel.add(gamePanel, BorderLayout.CENTER);
-		
-		return mainPanel;
+	public void paintComponent(Graphics g){
+		super.paintComponents(g);
+		panelDisplayer[2].paintComponents(g);
 	}
-
-
 }
