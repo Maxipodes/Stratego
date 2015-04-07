@@ -22,7 +22,7 @@ public class BoardGame
 	
 	static int LENGTHX;
 	int LENGTHY;
-	Piece[][] BOARD;
+	public Piece[][] BOARD;
 	
 	
 	

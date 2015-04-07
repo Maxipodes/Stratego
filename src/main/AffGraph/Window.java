@@ -16,8 +16,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
 import javax.swing.JPanel;
+
+import main.game.BoardGame;
 
 
 
@@ -32,9 +33,11 @@ public class Window extends JFrame {
 	
 	private JPanel[] panelDisplayer = new JPanel[3];      //Contient les différents panels a afficher
 	private int currentPanel ;
+	private BoardGame boardGame;
 
 	public static void main(String[] args) {
-		new Window();
+		BoardGame b =BoardGame.getBoardGame();
+		new Window(b);
 
 	}
 	
@@ -63,7 +66,7 @@ public class Window extends JFrame {
 	 *
 	 */
 	
-	public Window(){
+	public Window(BoardGame boardGame){
 		super();
 		Rectangle bounds = getMaxBounds();
 		super.setSize(bounds.width, bounds.height);
@@ -76,8 +79,9 @@ public class Window extends JFrame {
 		
 		panelDisplayer[0] =  createMenu();
 		panelDisplayer[1] =  createModSelect();
-		panelDisplayer[2] = new MainPanel();
+		panelDisplayer[2] = new MainPanel(boardGame);
 		currentPanel = 0;
+		this.boardGame=boardGame;
 	
 		super.add(panelDisplayer[0]);
 		super.paintComponents(getGraphics());

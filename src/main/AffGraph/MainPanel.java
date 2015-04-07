@@ -26,7 +26,8 @@ import main.game.Piece;
  */
 public class MainPanel extends JPanel {
 	
-	public MainPanel(){
+
+	public MainPanel(BoardGame boardGame){
 		super();
 		super.setLayout(new BorderLayout());
 		
@@ -39,7 +40,6 @@ public class MainPanel extends JPanel {
 			killedPiecePanel.add(new InfoPieceEnnemies(piece));
 			
 		}
-		//new BoxLayout( killedPiecePanel,BoxLayout.Y_AXIS);
 		
 		InfoPanel lostPiecePanel = new InfoPanel();
 		lostPiecePanel.setBackground(Color.CYAN);
@@ -50,13 +50,14 @@ public class MainPanel extends JPanel {
 			lostPiecePanel.add(new InfoPieceAllies(piece));
 			
 		}
-		//new BoxLayout(lostPiecePanel ,BoxLayout.Y_AXIS);
 		
-		JPanel gamePanel = new ImagePanel("Logo.jpg");
+		JPanel gamePanel = new GamePanel(boardGame);
 
 		super.add(killedPiecePanel, BorderLayout.WEST);
 		super.add(lostPiecePanel, BorderLayout.EAST);
 		super.add(gamePanel, BorderLayout.CENTER);
+		
+		
 	}
 	
 	public void paintComponent(Graphics g){

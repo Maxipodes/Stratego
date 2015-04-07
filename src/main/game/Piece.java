@@ -1,5 +1,7 @@
 package main.game;
 
+import javax.swing.ImageIcon;
+
 public abstract class Piece 
 {
 
@@ -15,6 +17,7 @@ public abstract class Piece
 	public int MOVE;
 	public int currentNumber;
 	public int TEAM;
+	public ImageIcon image;
 	
 	public abstract Piece construct();
 
