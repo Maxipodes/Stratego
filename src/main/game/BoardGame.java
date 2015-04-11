@@ -5,26 +5,20 @@ public class BoardGame
 	public static void main(String[] args)
 	{
 		BoardGame boardGame = getBoardGame();
-		boardGame.randFillInBoardGame(charachter);
-		//System.out.println(boardGame[0][0].NAME);
-		boardGame.printTab();
+		boardGame.randFillInBoardGame();
 		BoardGame bob = getBoardGame();
-		System.out.println("\n");
 		bob.printTab();
-		bob.setMoveCharacter(bob.BOARD[3][0].position,4,0);		
-		System.out.println("\n");
-		bob.printTab();
-		//setMoveCharachter(boardGame,boardGame[3][0].position,4,0);
-		//System.out.println("\n");
-		//printTab(boardGame);
-		
+		Position p = new Position(4,3);
+		System.out.println(bob.canMove(bob.BOARD[3][3].position, p));
 	}
 	
 	static int LENGTHX;
 	int LENGTHY;
 	public Piece[][] BOARD;
-	
-	
+	int LEFT;
+	int RIGHT;
+	int DOWN;
+	int UP;
 	
 	private static BoardGame instance = null;
 	
@@ -33,19 +27,18 @@ public class BoardGame
 		if (instance == null)
 			instance =  new BoardGame();
 		return instance;
-		
 	}
-	
 	
 	public BoardGame()
 	{
+		LEFT = 1;
+		RIGHT = 2;
+		DOWN = 3;
+		UP = 4;
 		LENGTHX = 10;
 		LENGTHY = 10;
 		BOARD = createBoardGame(LENGTHX,LENGTHY);
-	}
-	
-	
-	
+	}	
 	
 	public static Piece[][] createBoardGame(int lengthX, int lengthY)
 	{
@@ -61,14 +54,15 @@ public class BoardGame
 		
 		return list;
 	}
+	
 	public void printTab()
 	{ 
 		for(int i=0; i < BOARD.length; i++)
 		{
 			for(int j=0; j < BOARD[0].length;j ++)
 			{
-				if (isEmpty(i, j) == false)
-					System.out.print(" "+BOARD[i][j].NAME +" | "+ i + ","+ j+" || ");	
+				if (BOARD[i][j] != null)
+					System.out.print(" "+BOARD[i][j].NAME +" | "+BOARD[i][j].position.positionX+ ","+BOARD[i][j].position.positionY +" || ");	
 				else 
 					System.out.print(" X"+" | "+i+","+j+" || ");
 			}
@@ -84,6 +78,7 @@ public class BoardGame
 	{
 			Piece piece = p.construct();
 			piece.setPosition(x, y);
+			piece.setTeam(1);
 			BOARD[x][y] = piece;
 	}
 	
@@ -97,10 +92,14 @@ public class BoardGame
 	
 	public void setMoveCharacter(Position p, int x , int y)
 	{
-		Piece move = BOARD[p.positionX][p.positionY];
-		BOARD[p.positionX][p.positionY] = null;
-		BOARD[x][y] = move;
-		move.setPosition(x,y);
+		Position a = new Position(x,y);
+		if(canMove(p,a))
+		{
+				Piece move = BOARD[p.positionX][p.positionY];
+				BOARD[p.positionX][p.positionY] = null;
+				BOARD[x][y] = move;
+				move.setPosition(x,y);
+		}
 	}
 	
 
@@ -134,7 +133,7 @@ public class BoardGame
 		int numberPiece = 0;
 		for(int k = 0; k < 4; k++)
 		{
-			for(int i = 0; i < 10; i++)
+			for(int i = 0; i < BOARD[0].length; i++)
 			{
 				Piece currentPiece =list[x];
 				if(numberPiece<currentPiece.NUMBER)
@@ -148,16 +147,16 @@ public class BoardGame
 					numberPiece=0;
 				}
 			}
-		}
-				
-				
+		}			
 	}			 
-	public  void randFillInBoardGame(Piece[] list)
+	
+	public  void randFillInBoardGame()
 	{
+		Piece[] list = charachter;
 		fillInBoardGame(list);
 		for(int k = 0; k < 4; k++)
 		{
-			for(int i = 0; i < 10; i++)
+			for(int i = 0; i < BOARD[0].length; i++)
 			{
 				int randX = (int)(Math.random()*4);
 				int randY = (int)(Math.random()*10);
@@ -167,10 +166,241 @@ public class BoardGame
 			}
 		}
 	}
-			
 	
-}
+	public Piece[][] helpList() 
+	{
+		Piece[][] list = new Piece[LENGTHX+2][LENGTHY+2];
+		
+		for(int i = 0; i <BOARD.length; i++)
+		{
+			for(int j = 0; j < BOARD[0].length; j++)
+			{
+				list[i+1][j+1] = BOARD[i][j];
+			}
+		}
+		return list;
+	}
+	
+	public boolean isNextToSomeone(Position p)  
+	{
+		Piece[][] list = helpList();
+			
+		if (list[(p.positionX+1)+1][(p.positionY+1)] != null)
+			return true;
+		if (list[(p.positionX+1)-1][(p.positionY+1)] != null)
+			return true;
+		if (list[(p.positionX+1)][(p.positionY+1)+1] != null)
+			return true;
+		if (list[(p.positionX+1)][(p.positionY+1)-1] != null)
+			return true;
+		else;
+			return false;
+	}			
+	
+	public boolean isNextToSide(Position p) 
+	{
+		if(BOARD[p.positionX][p.positionY].position.positionX == 0)
+			return true;
+		else if(BOARD[p.positionX][p.positionY].position.positionY == 0)
+			return true;
+		else if(BOARD[p.positionX][p.positionY].position.positionY == BOARD.length)
+			return true;
+		else if(BOARD[p.positionX][p.positionY].position.positionY == BOARD[0].length)
+			return true;
+		return false;	
+	}
+	
+	public boolean isNextToCorner(Position p)
+	{
+		if((BOARD[p.positionX][p.positionY].position.positionX == 0)&&(BOARD[p.positionX][p.positionY].position.positionY == 0))
+			return true;
+		else if((BOARD[p.positionX][p.positionY].position.positionX == 0)&&(BOARD[p.positionX][p.positionY].position.positionY == BOARD[0].length))
+			return true;
+		else if((BOARD[p.positionX][p.positionY].position.positionX == BOARD.length)&&(BOARD[p.positionX][p.positionY].position.positionY == 0))
+			return true;
+		else if((BOARD[p.positionX][p.positionY].position.positionX == BOARD.length)&&(BOARD[p.positionX][p.positionY].position.positionY == BOARD[0].length))
+			return true;
+		return false;		
+	}
+	
+	public int numberFriendsNextTo(Position p) 
+	{
+		Piece[][] list = helpList();
+	
+		int i = 0;
+		
+		if (isNextToSomeone(p) == false)
+			return i;
+		else
+		{	
+			if (list[(p.positionX+1)][(p.positionY+1)].sameTeam(list[(p.positionX+1) + 1][(p.positionY+1)]))
+				i++;
+			if (list[(p.positionX+1)][(p.positionY+1)].sameTeam(list[(p.positionX+1) - 1][(p.positionY+1)]))
+				i++;
+			if (list[(p.positionX+1)][(p.positionY+1)].sameTeam(list[(p.positionX+1)][(p.positionY+1) + 1]))
+				i++;
+			if (list[(p.positionX+1)][(p.positionY+1)].sameTeam(list[(p.positionX+1)][(p.positionY+1) - 1]))
+				i++;
+		}	
+		return i;
+	}	
+	
+	public boolean isOneMove(Position p, Position d) 
+	{
+		if((BOARD[p.positionX][p.positionY].position.positionX - d.positionX) == (-1))
+			return true;
+		else if((BOARD[p.positionX][p.positionY].position.positionX - d.positionX) == (1))
+			return true;
+		else if ((BOARD[p.positionX][p.positionY].position.positionY - d.positionY) == (-1))
+			return true;
+		else if ((BOARD[p.positionX][p.positionY].position.positionY - d.positionY) == (1))
+			return true;
+		return false;
+		
+			
+	}	
+	
+	
+	public static boolean isDirectionInLine(Position p, Position d)
+	{
+		if ((p.positionX == d.positionX) || (p.positionY == d.positionY))
+			return true;
+		else; 
+			return false;
+	}
 
+	public int returnDirection(Position p, Position d)
+	{
+		if (p.positionX == d.positionX)
+		{
+			if (p.positionY > d.positionY)
+			{					
+				return LEFT;
+			}
+			else;
+			{	
+				return RIGHT ;
+			}	
+		}
+		else if(p.positionY == d.positionY)
+		{	
+			if(p.positionX > d.positionX)
+			{
+				return DOWN;
+			}
+			else;
+			{
+				return UP;
+			}
+		}
+		return 0;
+	}
+	
+	public boolean canMove(Position p, Position d) 
+	{
+		
+		if (BOARD[p.positionX][p.positionY].MOVE == 0)
+			return false;	
+	
+		else if (numberFriendsNextTo(p) == 4)
+			return false;
+		
+		else if (isNextToCorner(p) && numberFriendsNextTo(p) == 2)
+			return false;
+		
+		else if (isNextToSide(p) && numberFriendsNextTo(p) == 3)
+			return false;		
+		
+		else if (isDirectionInLine(p, d)==false)
+			return false;
+		
+		else if (BOARD[p.positionX][p.positionY].MOVE == 1)
+		{
+			if (isOneMove(p,d))
+				return true;
+			return false;
+		}
+					
+		else if (BOARD[p.positionX][p.positionY].MOVE > 1)
+		{	
+			if (returnDirection(p, d) == LEFT)
+			{
+				for(int i = p.positionY; i > d.positionY; i--)
+				{						
+					if (BOARD[p.positionX][i-1]==null)
+						continue;
+								
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i-1]))
+						return false;
+								
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][d.positionY]))
+						return false;
+								
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][d.positionY]) == false)
+						return true;
+				}
+				return true;
+			}	
+			else if (returnDirection(p, d) == RIGHT)
+			{
+				for(int i = p.positionY; i < d.positionY; i++)
+				{						
+					if (BOARD[p.positionX][i+1]==null)
+						continue;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i+1]))
+						return false;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
+						return false;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false)
+						return true;
+				}
+				return true;
+			}
+			else if (returnDirection(p, d) == DOWN)
+			{
+				for(int i = p.positionX; i < d.positionX; i++)
+				{						
+					if (BOARD[i+1][p.positionY]==null)
+						continue;
+					
+					else if (BOARD[i+1][p.positionY].sameTeam(BOARD[i+1][p.positionY]))
+						return false;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
+						return false;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false)
+						return true;
+				}
+				return true;
+			}
+			
+			else if (returnDirection(p, d) == UP)
+			{
+				for(int i = p.positionX; i < d.positionX; i--)
+				{						
+					if (BOARD[i-1][p.positionY]==null)
+						continue;
+					
+					else if (BOARD[i-1][p.positionY].sameTeam(BOARD[i+1][p.positionY]))
+						return false;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
+						return false;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false)
+						return true;
+				}
+				return true;
+			}	
+		}
+		return false;
+	}
+
+}
 
 
 

@@ -1,10 +1,11 @@
 package main.game;
 
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 public abstract class Piece 
 {
-
 	public static void main(String[] args) 
 	{
 	}
@@ -17,33 +18,34 @@ public abstract class Piece
 	public int MOVE;
 	public int currentNumber;
 	public int TEAM;
-	public ImageIcon image;
+	ImageIcon IMAGE;
+
 	
 	public abstract Piece construct();
 
-	public static boolean isEquals(Piece piece1, Piece piece2)
+	public boolean isEquals(Piece piece2)
 	{
-		if (piece1.RANK == piece2.RANK)
+		if (RANK == piece2.RANK)
 			return true;
 		return false;
 	}
-	public static boolean isStronger(Piece piece1, Piece piece2) 
+	public boolean isStronger(Piece piece2) 
 	{
-		if (piece1.WEAKNESS != 0)
+		if (WEAKNESS != 0)
 		{
-			if (piece1.WEAKNESS == piece2.RANK)
+			if (WEAKNESS == piece2.RANK)
 				return true;
 		}
 		else if (piece2.WEAKNESS != 0)
 		{
-			if (piece1.RANK == piece2.WEAKNESS)
+			if (RANK == piece2.WEAKNESS)
 				return true;
 		}
-		else if (piece1.RANK > piece2.RANK)
+		else if (RANK > piece2.RANK)
 			return true;
 		return false;
 	}
-	public static boolean hasWon(Piece p1, Piece p2)
+	public boolean hasWon(Piece p2)
 	{
 		if (p2.RANK == 0)
 			return true;
@@ -70,14 +72,18 @@ public abstract class Piece
 	{
 		 position = new Position(x,y);
 	}
-	public static boolean sameTeam(Piece p1, Piece p2)
+	public boolean sameTeam(Piece p2)
 	{
-		if( p1 instanceof Lake)
+		 if (p2 instanceof Lake)
 			return true;
-		else if (p2 instanceof Lake)
-			return true;
-		else;
-			return p1.TEAM == p2.TEAM;
+		 if(p2 == null)
+			 return false;
+		 else;
+			return TEAM == p2.TEAM;
+	}
+	
+	public Image getImage(){
+		return IMAGE.getImage();
 	}
 	
 }

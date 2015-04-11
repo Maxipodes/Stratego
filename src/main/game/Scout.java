@@ -1,5 +1,10 @@
 package main.game;
 
+import java.awt.Image;
+import java.io.File;
+
+import javax.swing.ImageIcon;
+
 public class Scout extends Piece 
 {
 	public Scout() 
@@ -10,10 +15,16 @@ public class Scout extends Piece
 		WEAKNESS = 0;	
 		MOVE = BoardGame.LENGTHX;		
 		currentNumber = 0;
+		TEAM = 0;
+		String image ="."+File.separator+"src"+File.separator+
+				"Image"+File.separator+"Méchant_mage.png";
+		IMAGE = new ImageIcon(image);
 	}
 
 	public Scout construct()
 	{
 		return new Scout();
 	}	
+	
+	
 }

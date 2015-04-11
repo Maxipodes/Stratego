@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.AffGraph;
+package main.AffGraph.Panel;
 
 import java.awt.Graphics;
 import java.awt.Image;

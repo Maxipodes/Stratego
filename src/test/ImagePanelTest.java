@@ -1,6 +1,6 @@
 package test;
 
-import main.AffGraph.ImagePanel;
+import main.AffGraph.Panel.ImagePanel;
 
 import org.junit.Assert;
 import org.junit.Test;

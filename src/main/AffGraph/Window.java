@@ -18,6 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import main.AffGraph.Panel.GamePanel;
+import main.AffGraph.Panel.MainPanel;
 import main.game.BoardGame;
 
 
@@ -37,6 +39,16 @@ public class Window extends JFrame {
 
 	public static void main(String[] args) {
 		BoardGame b =BoardGame.getBoardGame();
+		b.randFillInBoardGame();
+		/*
+		JFrame frame = new JFrame();
+		frame.setSize(800, 700);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.add(new GamePanel(b));
+		frame.update(frame.getGraphics());
+		*/
+		
 		new Window(b);
 
 	}
@@ -142,6 +154,6 @@ public class Window extends JFrame {
 	
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		panelDisplayer[2].paintComponents(g);
+		//panelDisplayer[2].paintComponents(g);
 	}
 }

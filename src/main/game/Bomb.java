@@ -1,5 +1,9 @@
 package main.game;
 
+import java.io.File;
+
+import javax.swing.ImageIcon;
+
 public class Bomb extends Piece 
 {
 	public Bomb() 
@@ -10,6 +14,10 @@ public class Bomb extends Piece
 		WEAKNESS = 3;	
 		MOVE = 0;		
 		currentNumber = 0;
+		TEAM = 0;
+		String image ="."+File.separator+"src"+File.separator+
+				"Image"+File.separator+"Méchant_mage.png";
+		IMAGE = new ImageIcon(image);
 	}
 	
 	public Bomb construct()

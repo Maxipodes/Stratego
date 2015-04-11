@@ -1,5 +1,9 @@
 package main.game;
 
+import java.io.File;
+
+import javax.swing.ImageIcon;
+
 public class Lake extends Piece
 {
 
@@ -11,6 +15,7 @@ public class Lake extends Piece
 		WEAKNESS = 0;	
 		MOVE = 0;		
 		currentNumber = 0;
+		
 	}
 
 	public Lake construct()
@@ -27,7 +32,9 @@ public class Lake extends Piece
 		MOVE = 0;		
 		currentNumber = 0;
 		position = new Position(x, y);
+		String image ="."+File.separator+"src"+File.separator+
+				"Image"+File.separator+"Méchant_mage.png";
+		IMAGE = new ImageIcon(image);
 	}
 
-	
 }

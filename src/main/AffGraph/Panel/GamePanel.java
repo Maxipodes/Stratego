@@ -1,6 +1,7 @@
-package main.AffGraph;
+package main.AffGraph.Panel;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 
@@ -8,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import main.game.BoardGame;
+import main.game.Bomb;
 import main.game.Piece;
 import main.game.Position;
 
@@ -24,18 +26,7 @@ public class GamePanel extends JPanel{
 				"Image"+File.separator+"Logo.jpg";
 		this.boardGame = boardGame.BOARD;
 		
-		for(Piece[] line:this.boardGame){
-			for(Piece character:line){
-				if(character != null){
-					Position newPos = coordToPix(character.position);
-					getGraphics().drawImage(character.image.getImage(), newPos.positionX, 
-						newPos.positionY, this);
-				}
-			}
-		}
-		
 		background = new ImageIcon(image);
-		update(getGraphics());
 
 	}
 	
@@ -59,19 +50,17 @@ public class GamePanel extends JPanel{
 	}
 	
 	public void refresh(Position pos, Position movedPos){
-		ImageIcon img = boardGame[pos.positionX][pos.positionY].image;
+		Piece p = boardGame[pos.positionX][pos.positionY];
 		
 		Position newPos = coordToPix(pos);
 		Rectangle rect = getRect(newPos);
 		repaint(rect);
 		
 		Position newMovedPos =coordToPix(movedPos);
-		getGraphics().drawImage(img.getImage(), newMovedPos.positionX, newMovedPos.positionY, this);
+		getGraphics().drawImage(p.getImage(), newMovedPos.positionX, newMovedPos.positionY, this);
 	}
 	
 	public void refresh(Position pos){
-		ImageIcon img = boardGame[pos.positionX][pos.positionY].image;
-		
 		Position newPos = coordToPix(pos);
 		Rectangle rect = getRect(newPos);
 		repaint(rect);
@@ -79,10 +68,24 @@ public class GamePanel extends JPanel{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage( background.getImage(), 0, 0, null);
+		
 		height = super.getHeight();
 		width = super.getWidth();
-		super.paintChildren(g);
+		
+		g.drawImage( background.getImage(), 0, 0, null);
+		
+		for(Piece[] line:this.boardGame){
+			for(Piece character:line){
+				if(character != null){
+					Position newPos = coordToPix(character.position);
+					g.drawImage(character.getImage(), newPos.positionY, 
+							newPos.positionX, null);
+				}
+			}
+		}
+		
+		
+		
 	}
 
 }
