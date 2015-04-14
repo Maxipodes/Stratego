@@ -17,9 +17,7 @@ import main.game.Piece;
  */
 public class InfoPieceAllies extends JLabel {
 
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args) {
 
 	}

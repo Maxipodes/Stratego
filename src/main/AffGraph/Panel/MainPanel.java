@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,8 +28,9 @@ import main.game.Piece;
  */
 public class MainPanel extends JPanel {
 	
+	public GamePanel GAME_PANEL;
 
-	public MainPanel(BoardGame boardGame){
+	public MainPanel(){
 		super();
 		super.setLayout(new BorderLayout());
 		
@@ -51,7 +54,8 @@ public class MainPanel extends JPanel {
 			
 		}
 		
-		JPanel gamePanel = new GamePanel(boardGame);
+		GamePanel gamePanel = new GamePanel();
+		this.GAME_PANEL = gamePanel;
 
 		super.add(killedPiecePanel, BorderLayout.WEST);
 		super.add(lostPiecePanel, BorderLayout.EAST);

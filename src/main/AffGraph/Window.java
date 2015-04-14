@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 
 import main.AffGraph.Panel.GamePanel;
 import main.AffGraph.Panel.MainPanel;
+import main.AffGraph.Panel.PlacementPanel;
 import main.game.BoardGame;
 
 
@@ -32,14 +33,8 @@ import main.game.BoardGame;
  */
 public class Window extends JFrame {
 
-	
-	private JPanel[] panelDisplayer = new JPanel[3];      //Contient les différents panels a afficher
-	private int currentPanel ;
-	private BoardGame boardGame;
-
 	public static void main(String[] args) {
-		BoardGame b =BoardGame.getBoardGame();
-		b.randFillInBoardGame();
+		
 		/*
 		JFrame frame = new JFrame();
 		frame.setSize(800, 700);
@@ -49,7 +44,7 @@ public class Window extends JFrame {
 		frame.update(frame.getGraphics());
 		*/
 		
-		new Window(b);
+		new Window();
 
 	}
 	
@@ -73,12 +68,24 @@ public class Window extends JFrame {
 		}
 	}
 	
+	public class ModListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e){
+			MainPanel mp =mainPanel;
+					mp.GAME_PANEL.setBoardGame();
+		}
+	}
+	
+	private JPanel[] panelDisplayer = new JPanel[4];      //Contient les différents panels a afficher
+	private int currentPanel ;
+	private MainPanel mainPanel ;
+
 	/**
 	 * Construit la fenetre de jeu de taille maximale
 	 *
 	 */
 	
-	public Window(BoardGame boardGame){
+	public Window(){
 		super();
 		Rectangle bounds = getMaxBounds();
 		super.setSize(bounds.width, bounds.height);
@@ -89,11 +96,12 @@ public class Window extends JFrame {
 		super.setLocationRelativeTo(null);
 		super.addWindowListener(new WindowAdapter(this));
 		
+		mainPanel = new MainPanel();
 		panelDisplayer[0] =  createMenu();
 		panelDisplayer[1] =  createModSelect();
-		panelDisplayer[2] = new MainPanel(boardGame);
+		panelDisplayer[2] = new PlacementPanel(this);
+		panelDisplayer[3] = mainPanel;
 		currentPanel = 0;
-		this.boardGame=boardGame;
 	
 		super.add(panelDisplayer[0]);
 		super.paintComponents(getGraphics());
@@ -146,6 +154,7 @@ public class Window extends JFrame {
 		JButton previousButton = new JButton("Retour");
 		previousButton.addActionListener(new SwitchListenner());
 		classicMod.addActionListener(new SwitchListenner());
+		classicMod.addActionListener(new ModListener());
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(classicMod, BorderLayout.CENTER);
 		panel.add(previousButton, BorderLayout.WEST);
@@ -154,6 +163,6 @@ public class Window extends JFrame {
 	
 	public void paintComponent(Graphics g){
 		super.paintComponents(g);
-		//panelDisplayer[2].paintComponents(g);
+
 	}
 }

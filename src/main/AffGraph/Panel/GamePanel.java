@@ -20,14 +20,20 @@ public class GamePanel extends JPanel{
 	ImageIcon background;
 	Piece[][] boardGame;
 	
-	public GamePanel(BoardGame boardGame){
+	public GamePanel(){
 		super();
+		
 		String image ="."+File.separator+"src"+File.separator+
 				"Image"+File.separator+"Logo.jpg";
-		this.boardGame = boardGame.BOARD;
 		
 		background = new ImageIcon(image);
 
+	}
+	
+	public void setBoardGame(){
+		BoardGame boardGame =BoardGame.getBoardGame();
+		boardGame.randFillInBoardGame();
+		this.boardGame = boardGame.BOARD;
 	}
 	
 	private Position coordToPix(Position p){
