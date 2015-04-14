@@ -163,7 +163,6 @@ public class BoardGame
 		{
 			for(int i = 0; i < BOARD.length; i++)
 			{
-				System.out.println(k+" "+i);
 				int randX = (int)(Math.random()*10);
 				int randY = (int)(Math.random()*4);
 				Piece p = BOARD[i][k];
