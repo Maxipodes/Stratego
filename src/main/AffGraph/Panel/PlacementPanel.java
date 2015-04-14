@@ -1,18 +1,17 @@
 package main.AffGraph.Panel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.AffGraph.Window;
-import main.AffGraph.Window.SwitchListenner;
 import main.game.Piece;
 import main.game.Position;
 
@@ -89,19 +88,37 @@ public class PlacementPanel extends JPanel {
 		
 	}
 	
+	public class ConfirmListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			if(alliePanel.isComplete()){
+				MainPanel mp = (MainPanel)window.panelDisplayer[3];
+				mp.GAME_PANEL.setPlacement(alliePanel.getAllieTab());
+				window.switchPanel(1);
+			}
+			else{
+				JOptionPane.showMessageDialog(null,"Remplissez le tableau pour continuer",
+						"Information",JOptionPane.INFORMATION_MESSAGE);
+			}
+			
+		}
+
+	}
+	
 	
 	SelectPanel selectPanel;
 	AlliePiecePanel alliePanel;
+	Window window;
 	
 	public PlacementPanel(Window w){
 		super();
+		window=w;
 		
 		JPanel centerPanel = createCenterPanel();
 		
 		JButton returnButton = new JButton("Retour");
 		returnButton.addActionListener(w.new SwitchListenner());
 		
-		JPanel eastPanel = createEastPanel(w);
+		JPanel eastPanel = createEastPanel();
 		
 		setLayout(new BorderLayout());
 		super.add(returnButton ,  BorderLayout.WEST);
@@ -123,12 +140,12 @@ public class PlacementPanel extends JPanel {
 		return centerPanel;
 	}
 	
-	private JPanel createEastPanel(Window w){
+	private JPanel createEastPanel(){
 
 		JButton loadButton = new JButton("Charger");
 		JButton saveButton = new JButton("Sauver");
 		JButton confirmButton = new JButton("Confirmer");
-		confirmButton.addActionListener(w.new SwitchListenner());
+		confirmButton.addActionListener(new ConfirmListener());
 		
 		JPanel eastPanel = new JPanel(new GridLayout(3,1));
 		eastPanel.add(loadButton);

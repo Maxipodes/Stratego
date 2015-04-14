@@ -36,11 +36,20 @@ public class GamePanel extends JPanel{
 		this.boardGame = boardGame.BOARD;
 	}
 	
+	public void setPlacement(Piece[][] pieceTab){
+		for(int y=0; y < pieceTab[0].length; y++){
+			for(int x=0; x<pieceTab.length; x++){
+				boardGame[x][y+6] = pieceTab[x][y]; 
+				boardGame[x][y+6].setPosition(x, y+6);
+			}
+		}
+	}
+	
 	private Position coordToPix(Position p){
 		int caseHeight = height/10;
 		int caseWidth = width/10;
-		int newWidth = p.positionX*caseHeight;
-		int newHeight = p.positionY*caseWidth;
+		int newWidth = p.positionX*caseWidth;
+		int newHeight = p.positionY*caseHeight;
 		
 		return new Position(newWidth, newHeight);
 		
@@ -84,8 +93,8 @@ public class GamePanel extends JPanel{
 			for(Piece character:line){
 				if(character != null){
 					Position newPos = coordToPix(character.position);
-					g.drawImage(character.getImage(), newPos.positionY, 
-							newPos.positionX, null);
+					g.drawImage(character.getImage(), newPos.positionX, 
+							newPos.positionY, null);
 				}
 			}
 		}

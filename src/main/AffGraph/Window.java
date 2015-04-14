@@ -76,7 +76,7 @@ public class Window extends JFrame {
 		}
 	}
 	
-	private JPanel[] panelDisplayer = new JPanel[4];      //Contient les différents panels a afficher
+	public JPanel[] panelDisplayer = new JPanel[4];      //Contient les différents panels a afficher
 	private int currentPanel ;
 	private MainPanel mainPanel ;
 
@@ -125,7 +125,7 @@ public class Window extends JFrame {
 	 * @param a -1 pour retourner au panel precedent , 1 pour passer au panel suivant
 	 */
 	
-	private void  switchPanel(int a){
+	public void  switchPanel(int a){
 		super.getContentPane().remove(panelDisplayer[currentPanel]);
 		currentPanel +=a;
 		super.add(panelDisplayer[currentPanel]);

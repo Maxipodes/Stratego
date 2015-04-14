@@ -8,8 +8,10 @@ public class BoardGame
 		boardGame.randFillInBoardGame();
 		BoardGame bob = getBoardGame();
 		bob.printTab();
+		/*
 		Position p = new Position(4,3);
 		System.out.println(bob.canMove(bob.BOARD[3][3].position, p));
+		*/
 	}
 	
 	static int LENGTHX;
@@ -43,28 +45,31 @@ public class BoardGame
 	public static Piece[][] createBoardGame(int lengthX, int lengthY)
 	{
 		Piece[][] list = new Piece[lengthX][lengthY];
-		list[4][2] = new Lake(4,2);
-		list[4][3] = new Lake(4,3);
-		list[5][2] = new Lake(5,2);
-		list[5][3] = new Lake(5,3);
-		list[4][7] = new Lake(4,7);
-		list[5][7] = new Lake(5,7);
-		list[5][6] = new Lake(5,6);
-		list[4][6] = new Lake(4,6);
+		list[2][4] = new Lake(2,4);
+		list[3][4] = new Lake(3,4);
+		list[2][5] = new Lake(2,5);
+		list[3][5] = new Lake(3,5);
+		list[7][4] = new Lake(7,4);
+		list[7][5] = new Lake(7,5);
+		list[6][5] = new Lake(6,5);
+		list[6][4] = new Lake(6,4);
 		
 		return list;
 	}
 	
 	public void printTab()
 	{ 
-		for(int i=0; i < BOARD.length; i++)
+		for(int j=0; j < BOARD[0].length;j ++)
 		{
-			for(int j=0; j < BOARD[0].length;j ++)
+			for(int i=0; i < BOARD.length; i++)
 			{
-				if (BOARD[i][j] != null)
-					System.out.print(" "+BOARD[i][j].NAME +" | "+BOARD[i][j].position.positionX+ ","+BOARD[i][j].position.positionY +" || ");	
+				if (BOARD[i][j] != null){
+					Position pos = BOARD[i][j].position;
+					System.out.print("("+pos.positionX+", "+pos.positionY+")");	
+				}
+				
 				else 
-					System.out.print(" X"+" | "+i+","+j+" || ");
+					System.out.print("XXXXXX");
 			}
 			System.out.println();
 		}
@@ -133,12 +138,12 @@ public class BoardGame
 		int numberPiece = 0;
 		for(int k = 0; k < 4; k++)
 		{
-			for(int i = 0; i < BOARD[0].length; i++)
+			for(int i = 0; i < BOARD.length; i++)
 			{
 				Piece currentPiece =list[x];
 				if(numberPiece<currentPiece.NUMBER)
 				{
-					fillIn(currentPiece, k, i);
+					fillIn(currentPiece, i, k);
 					numberPiece++;
 				}
 				if(numberPiece==currentPiece.NUMBER)
@@ -154,13 +159,14 @@ public class BoardGame
 	{
 		Piece[] list = charachter;
 		fillInBoardGame(list);
-		for(int k = 0; k < 4; k++)
+		for(int k = 0; k <4; k++)
 		{
-			for(int i = 0; i < BOARD[0].length; i++)
+			for(int i = 0; i < BOARD.length; i++)
 			{
-				int randX = (int)(Math.random()*4);
-				int randY = (int)(Math.random()*10);
-				Piece p = BOARD[k][i];
+				System.out.println(k+" "+i);
+				int randX = (int)(Math.random()*10);
+				int randY = (int)(Math.random()*4);
+				Piece p = BOARD[i][k];
 				Piece l = BOARD[randX][randY];
 				swap(p.position,l.position);
 			}

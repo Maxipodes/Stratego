@@ -62,10 +62,12 @@ public class AlliePiecePanel extends JPanel{
 		Piece newPiece = alliePiece[pos1.positionX][pos1.positionY];
 		
 		alliePiece[pos2.positionX][pos2.positionY] = newPiece;
-		newPiece.setPosition(pos2.positionX, pos2.positionY);
+		if(newPiece!=null)
+			newPiece.setPosition(pos2.positionX, pos2.positionY);
 		
 		alliePiece[pos1.positionX][pos1.positionY] = oldPiece;
-		oldPiece.setPosition(pos1.positionX, pos1.positionY);
+		if(oldPiece!=null)
+			oldPiece.setPosition(pos1.positionX, pos1.positionY);
 	}
 	
 	public boolean isComplete(){
