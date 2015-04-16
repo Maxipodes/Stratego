@@ -15,7 +15,7 @@ import main.game.Piece;
  * @author Maxime
  *
  */
-public class InfoPieceAllies extends JLabel {
+public class InfoPieceAllies extends JLabel implements InfoPiece {
 
 	
 	public static void main(String[] args) {
@@ -25,7 +25,7 @@ public class InfoPieceAllies extends JLabel {
 	
 	public InfoPieceAllies(Piece p){
 		super();
-		String text = p.NAME+" :  "+p.currentNumber+"/"+p.NUMBER;
+		String text = p.NAME+" :  "+(p.NUMBER-p.currentNumber)+"/"+p.NUMBER;
 		super.setText(text);
 		piece=p;
 			
@@ -33,8 +33,14 @@ public class InfoPieceAllies extends JLabel {
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		String text = piece.NAME+" :  "+piece.currentNumber+"/"+piece.NUMBER;
+		String text = piece.NAME+" :  "+(piece.NUMBER-piece.currentNumber)+"/"+piece.NUMBER;
 		super.setText(text);
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

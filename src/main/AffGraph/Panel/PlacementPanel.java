@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import main.AffGraph.Window;
 import main.game.Piece;
 import main.game.Position;
+import main.game.Team;
 
 public class PlacementPanel extends JPanel {
 	
@@ -49,7 +50,7 @@ public class PlacementPanel extends JPanel {
 				coordRef = pixToCoord(posX);
 				if(selectPanel.tab[coordRef].NUMBER -selectPanel.tab[coordRef].currentNumber >0)
 					currentPiece = selectPanel.tab[coordRef].construct();
-					currentPiece.setTeam(0);
+					currentPiece.setTeam(Team.BLUE);
 					swap = false;
 			}
 			else{

@@ -14,7 +14,7 @@ import main.game.Piece;
 
 public class SelectPanel extends JPanel {
 	
-	public Piece[] tab = BoardGame.charachter;
+	public Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
 	int width;
 	public int caseWidth;
 	

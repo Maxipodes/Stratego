@@ -18,7 +18,7 @@ public class GamePanel extends JPanel{
 	int height;
 	int width;
 	ImageIcon background;
-	Piece[][] boardGame;
+	BoardGame boardGame;
 	
 	public GamePanel(){
 		super();
@@ -27,20 +27,20 @@ public class GamePanel extends JPanel{
 				"Image"+File.separator+"Logo.jpg";
 		
 		background = new ImageIcon(image);
+		boardGame =BoardGame.getBoardGame();
+		boardGame.randFillInBoardGame();
 
 	}
 	
-	public void setBoardGame(){
-		BoardGame boardGame =BoardGame.getBoardGame();
-		boardGame.randFillInBoardGame();
-		this.boardGame = boardGame.BOARD;
+	public void setBoardGame(Piece[][] tab){
+		boardGame.setBoardGame(tab);
 	}
 	
 	public void setPlacement(Piece[][] pieceTab){
 		for(int y=0; y < pieceTab[0].length; y++){
 			for(int x=0; x<pieceTab.length; x++){
-				boardGame[x][y+6] = pieceTab[x][y]; 
-				boardGame[x][y+6].setPosition(x, y+6);
+				boardGame.BOARD[x][y+6] = pieceTab[x][y]; 
+				boardGame.BOARD[x][y+6].setPosition(x, y+6);
 			}
 		}
 	}
@@ -65,7 +65,7 @@ public class GamePanel extends JPanel{
 	}
 	
 	public void refresh(Position pos, Position movedPos){
-		Piece p = boardGame[pos.positionX][pos.positionY];
+		Piece p = boardGame.BOARD[pos.positionX][pos.positionY];
 		
 		Position newPos = coordToPix(pos);
 		Rectangle rect = getRect(newPos);
@@ -89,7 +89,7 @@ public class GamePanel extends JPanel{
 		
 		g.drawImage( background.getImage(), 0, 0, null);
 		
-		for(Piece[] line:this.boardGame){
+		for(Piece[] line:this.boardGame.BOARD){
 			for(Piece character:line){
 				if(character != null){
 					Position newPos = coordToPix(character.position);

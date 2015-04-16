@@ -18,12 +18,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import main.AffGraph.Panel.GamePanel;
+import main.AffGraph.ButtonMod.ButtonMod;
+import main.AffGraph.ButtonMod.ClassicButton;
+import main.AffGraph.GameMod.GameMod;
 import main.AffGraph.Panel.MainPanel;
 import main.AffGraph.Panel.PlacementPanel;
-import main.game.BoardGame;
-
-
 
 
 /**
@@ -34,15 +33,6 @@ import main.game.BoardGame;
 public class Window extends JFrame {
 
 	public static void main(String[] args) {
-		
-		/*
-		JFrame frame = new JFrame();
-		frame.setSize(800, 700);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.add(new GamePanel(b));
-		frame.update(frame.getGraphics());
-		*/
 		
 		new Window();
 
@@ -72,7 +62,9 @@ public class Window extends JFrame {
 		
 		public void actionPerformed(ActionEvent e){
 			MainPanel mp =mainPanel;
-					mp.GAME_PANEL.setBoardGame();
+			ButtonMod bm =(ButtonMod) e.getSource();
+			GameMod mod = bm.getMod();
+			mp.GAME_PANEL.setBoardGame(mod.getBoardGame());
 		}
 	}
 	
@@ -150,7 +142,7 @@ public class Window extends JFrame {
 	 * @return un Jpannel
 	 */
 	private JPanel createModSelect(){
-		JButton classicMod = new JButton("Mode Classic");
+		JButton classicMod = new ClassicButton();
 		JButton previousButton = new JButton("Retour");
 		previousButton.addActionListener(new SwitchListenner());
 		classicMod.addActionListener(new SwitchListenner());

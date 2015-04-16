@@ -54,19 +54,17 @@ public abstract class Piece
 	
 	public void addCurrentNumber()
 	{
-		currentNumber ++;
+			currentNumber ++;
 	}
 	public void discreaseCurrentNumber()
 	{
-		currentNumber --;
+			currentNumber --;
 	}
-	public int getCurrentNumber()
-	{
-		return currentNumber;
-	}
+	
 	public void setTeam(int t)
 	{
 		TEAM = t;
+		this.addCurrentNumber();
 	}
 	public void setPosition(int x, int y)
 	{

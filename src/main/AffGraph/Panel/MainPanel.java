@@ -7,8 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -38,7 +36,7 @@ public class MainPanel extends JPanel {
 		killedPiecePanel.setBackground(Color.RED);
 		killedPiecePanel.setLayout(new BoxLayout(killedPiecePanel, BoxLayout.PAGE_AXIS));
 		killedPiecePanel.add(new JLabel("Pieces ennemies tuées"));
-		for(Piece piece : BoardGame.charachter){
+		for(Piece piece : BoardGame.getBoardGame().teamRed.charachter){
 			killedPiecePanel.add(Box.createRigidArea(new Dimension(0, 30)));
 			killedPiecePanel.add(new InfoPieceEnnemies(piece));
 			
@@ -48,7 +46,7 @@ public class MainPanel extends JPanel {
 		lostPiecePanel.setBackground(Color.CYAN);
 		lostPiecePanel.setLayout(new BoxLayout(lostPiecePanel, BoxLayout.PAGE_AXIS));
 		lostPiecePanel.add(new JLabel("Pieces alliées perdues"));
-		for(Piece piece : BoardGame.charachter){
+		for(Piece piece : BoardGame.getBoardGame().teamBlue.charachter){
 			lostPiecePanel.add(Box.createRigidArea(new Dimension(0, 30)));
 			lostPiecePanel.add(new InfoPieceAllies(piece));
 			

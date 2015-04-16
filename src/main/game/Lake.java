@@ -14,7 +14,6 @@ public class Lake extends Piece
 		NUMBER = 8;
 		WEAKNESS = 0;	
 		MOVE = 0;		
-		currentNumber = 0;
 		
 	}
 
@@ -30,7 +29,6 @@ public class Lake extends Piece
 		NUMBER = 8;
 		WEAKNESS = 0;	
 		MOVE = 0;		
-		currentNumber = 0;
 		position = new Position(x, y);
 		String image ="."+File.separator+"src"+File.separator+
 				"Image"+File.separator+"Méchant_mage.png";

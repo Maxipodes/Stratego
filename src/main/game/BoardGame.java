@@ -21,6 +21,8 @@ public class BoardGame
 	int RIGHT;
 	int DOWN;
 	int UP;
+	public Team teamRed;
+	public Team teamBlue;
 	
 	private static BoardGame instance = null;
 	
@@ -40,6 +42,9 @@ public class BoardGame
 		LENGTHX = 10;
 		LENGTHY = 10;
 		BOARD = createBoardGame(LENGTHX,LENGTHY);
+		
+		teamRed = new Team(Team.RED);
+		teamBlue = new Team(Team.BLUE);
 	}	
 	
 	public static Piece[][] createBoardGame(int lengthX, int lengthY)
@@ -55,6 +60,10 @@ public class BoardGame
 		list[6][4] = new Lake(6,4);
 		
 		return list;
+	}
+	
+	public void setBoardGame(Piece[][] pieceTab){
+		BOARD = pieceTab;
 	}
 	
 	public void printTab()
@@ -77,13 +86,11 @@ public class BoardGame
 
 	public static BoardGame boardGame = getBoardGame();
 	
-	public static Piece[] charachter = {new Spy(),new Scout(),new Miner(),new Sergeant(),new Lieutenant(),new Captain(),new Major(),new Colonel(),new General(),new Marshal(),new Flag(),new Bomb()};
-	
 	public void fillIn(Piece p, int x, int y)
 	{
 			Piece piece = p.construct();
 			piece.setPosition(x, y);
-			piece.setTeam(1);
+			piece.setTeam(Team.RED);
 			BOARD[x][y] = piece;
 	}
 	
@@ -157,7 +164,7 @@ public class BoardGame
 	
 	public  void randFillInBoardGame()
 	{
-		Piece[] list = charachter;
+		Piece[] list = teamRed.charachter;
 		fillInBoardGame(list);
 		for(int k = 0; k <4; k++)
 		{
