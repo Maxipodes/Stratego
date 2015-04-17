@@ -8,10 +8,9 @@ public class BoardGame
 		boardGame.randFillInBoardGame();
 		BoardGame bob = getBoardGame();
 		bob.printTab();
-		/*
 		Position p = new Position(4,3);
 		System.out.println(bob.canMove(bob.BOARD[3][3].position, p));
-		*/
+		System.out.println(bob.canMove(bob.BOARD[4][3].position, new Position(4, 4)));
 	}
 	
 	static int LENGTHX;
@@ -193,6 +192,8 @@ public class BoardGame
 		return list;
 	}
 	
+	
+	
 	public boolean isNextToSomeone(Position p)  
 	{
 		Piece[][] list = helpList();
@@ -273,7 +274,7 @@ public class BoardGame
 	}	
 	
 	
-	public static boolean isDirectionInLine(Position p, Position d)
+	public boolean isDirectionInLine(Position p, Position d)
 	{
 		if ((p.positionX == d.positionX) || (p.positionY == d.positionY))
 			return true;
@@ -411,7 +412,10 @@ public class BoardGame
 		}
 		return false;
 	}
-
+	
+	
+	
+	
 }
 
 

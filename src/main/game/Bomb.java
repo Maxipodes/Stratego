@@ -14,8 +14,10 @@ public class Bomb extends Piece
 		WEAKNESS = 3;	
 		MOVE = 0;		
 		currentNumber = 0;
+		SEEN = false;
+		hasMove = false;
 		String image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"Méchant_mage.png";
+				"Image"+File.separator+"bomb.png";
 		IMAGE = new ImageIcon(image);
 	}
 	

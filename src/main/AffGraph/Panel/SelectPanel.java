@@ -20,7 +20,7 @@ public class SelectPanel extends JPanel {
 	
 	public SelectPanel(){
 		super();
-		super.add(Box.createRigidArea(new Dimension(0, 90)));
+		super.add(Box.createRigidArea(new Dimension(0, 106)));
 	}
 	
 	private int coordToPix(int i){
@@ -40,8 +40,8 @@ public class SelectPanel extends JPanel {
 			int pos = coordToPix(i);
 			g.drawImage(tab[i].getImage(), pos, 0, this);
 			String numberRemaining =Integer.toString(tab[i].NUMBER-tab[i].currentNumber);
-			g.drawString(numberRemaining, pos+32, 80);
+			g.drawString(numberRemaining, pos+32, 96);
 		}
-		g.drawLine(0, 90, width, 90);
+		g.drawLine(0, 106, width, 106);
 	}
 }

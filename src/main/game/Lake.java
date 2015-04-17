@@ -14,6 +14,8 @@ public class Lake extends Piece
 		NUMBER = 8;
 		WEAKNESS = 0;	
 		MOVE = 0;		
+		SEEN = true;
+		hasMove = false;
 		
 	}
 

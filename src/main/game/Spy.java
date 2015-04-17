@@ -13,9 +13,12 @@ public class Spy extends Piece
 		NUMBER = 1;
 		WEAKNESS = 0;	
 		MOVE = 1;		
+		SEEN = false;
+		hasMove = false;
 		currentNumber = 0;
+		
 		String image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"Méchant_mage.png";
+				"Image"+File.separator+"spy.png";
 		IMAGE = new ImageIcon(image);
 	}
 	

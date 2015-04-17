@@ -14,8 +14,10 @@ public class Scout extends Piece
 		WEAKNESS = 0;	
 		MOVE = BoardGame.LENGTHX;		
 		currentNumber = 0;
+		SEEN = false;
+		hasMove = false;
 		String image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"Méchant_mage.png";
+				"Image"+File.separator+"scout.png";
 		IMAGE = new ImageIcon(image);
 	}
 

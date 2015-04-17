@@ -14,8 +14,10 @@ public class Marshal extends Piece
 		WEAKNESS = 1;	
 		MOVE = 1;		
 		currentNumber = 0;
+		SEEN = false;
+		hasMove = false;
 		String image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"Méchant_mage.png";
+				"Image"+File.separator+"marshal.png";
 		IMAGE = new ImageIcon(image);
 	}
 

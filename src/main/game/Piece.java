@@ -19,6 +19,8 @@ public abstract class Piece
 	public int currentNumber;
 	public int TEAM;
 	ImageIcon IMAGE;
+	public boolean SEEN;
+	public boolean hasMove;
 
 	
 	public abstract Piece construct();

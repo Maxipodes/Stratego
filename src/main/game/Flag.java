@@ -14,8 +14,10 @@ public class Flag extends Piece
 		WEAKNESS = 0;	
 		MOVE = 0;	
 		currentNumber = 0;
+		SEEN = false;
+		hasMove = false;
 		String image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"Méchant_mage.png";
+				"Image"+File.separator+"flag.png";
 		IMAGE = new ImageIcon(image);
 	}
 

@@ -1,7 +1,6 @@
 package main.AffGraph.Panel;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 
@@ -9,7 +8,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import main.game.BoardGame;
-import main.game.Bomb;
 import main.game.Piece;
 import main.game.Position;
 
@@ -98,9 +96,7 @@ public class GamePanel extends JPanel{
 				}
 			}
 		}
-		
-		
-		
+			
 	}
 
 }
