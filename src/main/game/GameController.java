@@ -1,10 +1,15 @@
 package main.game;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import main.AffGraph.Panel.GamePanel;
 import main.game.Pieces.Piece;
 
 public class GameController {
 
+	
+	
 	AI ai;
 	BoardGame boardGame;
 	GamePanel gamePanel;
@@ -31,8 +36,39 @@ public class GameController {
 	}
 	
 	public void attack(Position att, Position defend){
+		
+		if(Math.abs(att.positionX-defend.positionX)>1 ||
+				Math.abs(att.positionY-defend.positionY)>1){
+			att=bringCloser(att, defend);
+		}
+		
 		Piece pieceAtt = boardGame.BOARD[att.positionX][att.positionY];
+		Piece pieceDef = boardGame.BOARD[defend.positionX][defend.positionY];
 		Position winner =ai.attack(pieceAtt, defend);
+		Timer t = new Timer();
+		final class ShowTimer extends TimerTask{
+			Piece piece;
+			public ShowTimer(Piece p){
+				piece=p;
+			}
+			public void run() {
+				gamePanel.hidePiece(piece);
+				showWinner(winner, pieceAtt.position, defend);
+			}
+			
+		}
+		if(pieceDef.TEAM!=Team.BLUE){
+			gamePanel.showPiece(pieceDef);
+			t.schedule(new ShowTimer(pieceDef),2000);
+		}
+		else{
+			gamePanel.showPiece(pieceAtt);
+			t.schedule(new ShowTimer(pieceAtt),2000);
+		}
+		
+	}
+	
+	private void showWinner(Position winner, Position att, Position defend) {
 		if(winner==null){
 			gamePanel.refresh(att);
 			gamePanel.refresh(defend);
@@ -48,5 +84,33 @@ public class GameController {
 			boardGame.setMoveCharacter(att, defend);
 		}
 		gamePanel.upDateBoardGame();
+	}
+	
+	private Position bringCloser(Position prev, Position next){
+		int closerPosX = 0;
+		int closerPosY = 0;
+		if(prev.positionX==next.positionX){
+			if(prev.positionY<next.positionY){
+				closerPosX = next.positionX;
+				closerPosY=next.positionY-1;
+			}
+			else if(prev.positionY>next.positionY){
+				closerPosX = next.positionX;
+				closerPosY=next.positionY+1;
+			}
+		}
+		else if(prev.positionY==next.positionY){
+			if(prev.positionX<next.positionX){
+				closerPosY = next.positionX;
+				closerPosX=next.positionY-1;
+			}
+			else if(prev.positionY>next.positionY){
+				closerPosX = next.positionX;
+				closerPosY=next.positionY+1;
+			}
+		}
+		Position closerPos = new Position(closerPosX, closerPosY);
+		move(prev, closerPos );
+		return closerPos;
 	}
 }

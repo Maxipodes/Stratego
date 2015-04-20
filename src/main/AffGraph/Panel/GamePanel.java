@@ -155,6 +155,18 @@ public class GamePanel extends JPanel{
 		repaint(rect);
 	}
 	
+	public void showPiece(Piece p){
+		Position coord = p.position;
+		Position pos = coordToPix(coord);
+		getGraphics().drawImage(p.getShownImage(), pos.positionX, pos.positionY, this);
+	}
+	
+	public void hidePiece(Piece p){
+		Position coord = p.position;
+		Position pos = coordToPix(coord);
+		getGraphics().drawImage(p.getImage(), pos.positionX, pos.positionY, this);
+	}
+	
 	public void upDateBoardGame(){
 		boardGame=BoardGame.getBoardGame();
 	}

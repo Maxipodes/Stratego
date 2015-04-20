@@ -23,6 +23,7 @@ public abstract class Piece
 	public int currentNumber;
 	public int TEAM;
 	ImageIcon IMAGE;
+	ImageIcon SHOWN_IMAGE;
 	public boolean SEEN;
 	public boolean hasMove;
 
@@ -37,18 +38,12 @@ public abstract class Piece
 	}
 	public boolean isStronger(Piece piece2) 
 	{
-		if (WEAKNESS != 0)
-		{
-			if (WEAKNESS == piece2.RANK)
-				return true;
-		}
-		else if (piece2.WEAKNESS != 0)
-		{
-			if (RANK == piece2.WEAKNESS)
-				return true;
-		}
-		else if (RANK > piece2.RANK)
+		if (RANK == piece2.WEAKNESS){
 			return true;
+		}
+		else if (RANK > piece2.RANK){
+			return true;
+		}
 		return false;
 	}
 	public boolean hasWon(Piece p2)
@@ -80,6 +75,11 @@ public abstract class Piece
 		else{
 			image ="."+File.separator+"src"+File.separator+
 					"Image"+File.separator+"RedTeam"+File.separator+"S.png";
+			
+			String shownImage = "."+File.separator+"src"+File.separator+
+					"Image"+File.separator+"RedTeam"+File.separator+NAME+".png";
+			
+			SHOWN_IMAGE = new ImageIcon(shownImage);
 		}
 		
 		IMAGE = new ImageIcon(image);
@@ -100,6 +100,10 @@ public abstract class Piece
 	
 	public Image getImage(){
 		return IMAGE.getImage();
+	}
+	
+	public Image getShownImage(){
+		return SHOWN_IMAGE.getImage();
 	}
 	
 }

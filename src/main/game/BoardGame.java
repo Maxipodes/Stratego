@@ -10,8 +10,8 @@ public class BoardGame
 	{
 		Piece p=new Marshal();
 		p.setTeam(Team.BLUE);
-		p.setPosition(4, 4);
-		boardGame.BOARD[4][4]=p;
+		p.setPosition(4, 6);
+		boardGame.BOARD[4][6]=p;
 		BoardGame boardGame = getBoardGame();
 		boardGame.randFillInBoardGame();
 		BoardGame bob = getBoardGame();
@@ -20,6 +20,7 @@ public class BoardGame
 		System.out.println(bob.canMove(bob.BOARD[4][3].position, new Position(4, 4)));
 		System.out.println(bob.canMove(bob.BOARD[4][3].position, new Position(5, 4)));
 		System.out.println(bob.canMove(bob.BOARD[0][0].position, new Position(0,0)));
+		System.out.println(bob.canMove(bob.BOARD[4][6].position, new Position(5,7)));
 	}
 	
 	public static int LENGTHX;
@@ -431,6 +432,8 @@ public class BoardGame
 		int end = 0;
 		int increment = 0;
 		
+		if(dirX!=0 && dirY!=0)
+			return false;
 		if(dirX!=0){
 			if(dirX>move)
 				return false;
