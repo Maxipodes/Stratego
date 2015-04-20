@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import main.game.Piece;
+import main.game.Pieces.Piece;
 import main.game.Position;
 
 public class AlliePiecePanel extends JPanel{

@@ -1,6 +1,6 @@
 package main.AffGraph.GameMod;
 
-import main.game.Piece;
+import main.game.Pieces.Piece;
 
 public interface GameMod {
 	

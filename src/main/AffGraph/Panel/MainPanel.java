@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import main.AffGraph.InfoPiece.InfoPieceAllies;
 import main.AffGraph.InfoPiece.InfoPieceEnnemies;
 import main.game.BoardGame;
-import main.game.Piece;
+import main.game.Pieces.Piece;
 
 /**
  * @author Maxime

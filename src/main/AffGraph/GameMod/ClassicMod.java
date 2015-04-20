@@ -1,7 +1,7 @@
 package main.AffGraph.GameMod;
 
 import main.game.BoardGame;
-import main.game.Piece;
+import main.game.Pieces.Piece;
 
 public class ClassicMod implements GameMod{
 	

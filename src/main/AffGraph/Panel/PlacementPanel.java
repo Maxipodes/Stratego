@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.AffGraph.Window;
-import main.game.Piece;
+import main.game.Pieces.Piece;
 import main.game.Position;
 import main.game.Team;
 
@@ -75,7 +75,7 @@ public class PlacementPanel extends JPanel {
 				else{
 					if(selectPanel.tab[coordRef].NUMBER!=
 							selectPanel.tab[coordRef].currentNumber){
-									
+						System.out.println(newPos);
 						if(alliePanel.alliePiece[newPos.positionX][newPos.positionY]==null){
 							selectPanel.tab[coordRef].addCurrentNumber();
 							alliePanel.addInAllieTab(currentPiece, newPos);

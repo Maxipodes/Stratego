@@ -3,12 +3,11 @@
  */
 package main.AffGraph.InfoPiece;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JLabel;
 
-import main.game.Piece;
+import main.game.Pieces.Piece;
 
 /**
  * @author Maxime

@@ -1,5 +1,10 @@
 package main.game;
 
+import main.game.Pieces.Marshal;
+import main.game.Pieces.Piece;
+import main.game.Pieces.Scout;
+import main.game.Pieces.Spy;
+
 public class AI
 {
 	public static void main(String[] args)
@@ -13,7 +18,7 @@ public class AI
 	public AI() 
 	{
 		int gameTurn = 0;
-		BoardGame board = BoardGame.getBoardGame();
+		board = BoardGame.getBoardGame();
 	}
 	
 	private static AI instance = null;
@@ -188,21 +193,21 @@ public class AI
 	}
 	
 	
-	public void attack(Piece piece, Position direction)
+	public Position attack(Piece piece, Position direction)
 	{
-		if (board.canMove(piece.position, direction))
-		{
-			if (board.BOARD[direction.positionX][direction.positionY].isStronger(piece))
-			{
-					board.BOARD[direction.positionX][direction.positionY] = null;
-					board.setMoveCharacter(piece.position, direction.positionX, direction.positionY);		
-			}
-			else;
-			{
-				board.BOARD[piece.position.positionX][piece.position.positionY] = null; 
-				board.BOARD[direction.positionX][direction.positionY].SEEN = true;
-			}
-		}
+			Position posSurvivor;
+			
+			if (piece.isStronger(board.BOARD[direction.positionX][direction.positionY]))
+					posSurvivor=piece.position;
+			
+			else if(board.BOARD[direction.positionX][direction.positionY].isStronger(piece))
+				posSurvivor = direction;
+	
+			else
+				posSurvivor= null;
+			
+			return posSurvivor;
+			
 	}
 	
 }	

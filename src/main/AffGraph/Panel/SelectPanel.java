@@ -4,17 +4,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import main.game.BoardGame;
-import main.game.Piece;
-
 
 
 public class SelectPanel extends JPanel {
 	
-	public Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
+	public main.game.Pieces.Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
 	int width;
 	public int caseWidth;
 	

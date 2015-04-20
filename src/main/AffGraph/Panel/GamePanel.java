@@ -2,31 +2,94 @@ package main.AffGraph.Panel;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import main.game.BoardGame;
-import main.game.Piece;
+import main.game.GameController;
 import main.game.Position;
+import main.game.Team;
+import main.game.Pieces.Piece;
 
 public class GamePanel extends JPanel{
 	
+	public class ControlListener implements MouseListener{
+		
+		Position piecePos;
+		Position destPos;
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int posX = e.getX();
+			int posY = e.getY();
+			Position pos = new Position(posX, posY);
+			Position coord = pixToCoord(pos);
+			if(piecePos!=null){
+				destPos=coord;
+				if(boardGame.canMove(piecePos, destPos)){
+					if(boardGame.BOARD[destPos.positionX][destPos.positionY]==null){
+						gameController.move(piecePos, destPos);
+					}
+					else if(boardGame.BOARD[destPos.positionX][destPos.positionY].TEAM!=Team.BLUE){
+						gameController.attack(piecePos, destPos);
+					}
+				}
+				piecePos = null;
+			}
+			else if(boardGame.BOARD[coord.positionX][coord.positionY]!=null){
+				if(boardGame.BOARD[coord.positionX][coord.positionY].TEAM==Team.BLUE){
+					piecePos = coord;
+				}
+			}
+			
+			
+		}
+
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+
 	int height;
 	int width;
 	ImageIcon background;
 	BoardGame boardGame;
+	GameController gameController;
 	
 	public GamePanel(){
 		super();
-		
+		super.addMouseListener(new ControlListener());
 		String image ="."+File.separator+"src"+File.separator+
 				"Image"+File.separator+"Logo.jpg";
 		
 		background = new ImageIcon(image);
 		boardGame =BoardGame.getBoardGame();
 		boardGame.randFillInBoardGame();
+		gameController = GameController.getGameController(this);
 
 	}
 	
@@ -49,8 +112,20 @@ public class GamePanel extends JPanel{
 		int newWidth = p.positionX*caseWidth;
 		int newHeight = p.positionY*caseHeight;
 		
-		return new Position(newWidth, newHeight);
+		int decalage = (caseWidth-80)/2;
 		
+		return new Position(newWidth+decalage, newHeight);
+		
+	}
+	
+	private Position pixToCoord(Position position) {
+		int caseHeight = height/10;
+		int caseWidth = width/10;
+		int decalage = (caseWidth-80)/2;
+		
+		int coordX = (position.positionX-decalage)/caseWidth;
+		int coordY = position.positionY/caseHeight;
+		return new Position(coordX, coordY);
 	}
 	
 	private Rectangle getRect(Position p){
@@ -65,18 +140,23 @@ public class GamePanel extends JPanel{
 	public void refresh(Position pos, Position movedPos){
 		Piece p = boardGame.BOARD[pos.positionX][pos.positionY];
 		
+		
 		Position newPos = coordToPix(pos);
 		Rectangle rect = getRect(newPos);
 		repaint(rect);
 		
 		Position newMovedPos =coordToPix(movedPos);
-		getGraphics().drawImage(p.getImage(), newMovedPos.positionX, newMovedPos.positionY, this);
+		getGraphics().drawImage(p.getImage(), newMovedPos.positionX, newMovedPos.positionY, null);
 	}
 	
 	public void refresh(Position pos){
 		Position newPos = coordToPix(pos);
 		Rectangle rect = getRect(newPos);
 		repaint(rect);
+	}
+	
+	public void upDateBoardGame(){
+		boardGame=BoardGame.getBoardGame();
 	}
 	
 	public void paintComponent(Graphics g){

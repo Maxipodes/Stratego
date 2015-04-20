@@ -1,19 +1,28 @@
 package main.game;
 
+import main.game.Pieces.Lake;
+import main.game.Pieces.Marshal;
+import main.game.Pieces.Piece;
+
 public class BoardGame
 {
 	public static void main(String[] args)
 	{
+		Piece p=new Marshal();
+		p.setTeam(Team.BLUE);
+		p.setPosition(4, 4);
+		boardGame.BOARD[4][4]=p;
 		BoardGame boardGame = getBoardGame();
 		boardGame.randFillInBoardGame();
 		BoardGame bob = getBoardGame();
 		bob.printTab();
-		Position p = new Position(4,3);
-		System.out.println(bob.canMove(bob.BOARD[3][3].position, p));
+		System.out.println(bob.canMove(bob.BOARD[3][3].position, new Position(4,3)));
 		System.out.println(bob.canMove(bob.BOARD[4][3].position, new Position(4, 4)));
+		System.out.println(bob.canMove(bob.BOARD[4][3].position, new Position(5, 4)));
+		System.out.println(bob.canMove(bob.BOARD[0][0].position, new Position(0,0)));
 	}
 	
-	static int LENGTHX;
+	public static int LENGTHX;
 	int LENGTHY;
 	public Piece[][] BOARD;
 	int LEFT;
@@ -101,16 +110,12 @@ public class BoardGame
 	}
 	
 	
-	public void setMoveCharacter(Position p, int x , int y)
+	public void setMoveCharacter(Position p, Position a)
 	{
-		Position a = new Position(x,y);
-		if(canMove(p,a))
-		{
 				Piece move = BOARD[p.positionX][p.positionY];
 				BOARD[p.positionX][p.positionY] = null;
-				BOARD[x][y] = move;
-				move.setPosition(x,y);
-		}
+				BOARD[a.positionX][a.positionY] = move;
+				move.setPosition(a.positionX,a.positionY);
 	}
 	
 
@@ -308,7 +313,7 @@ public class BoardGame
 		}
 		return 0;
 	}
-	
+	/*
 	public boolean canMove(Position p, Position d) 
 	{
 		
@@ -411,12 +416,84 @@ public class BoardGame
 			}	
 		}
 		return false;
+	
+	}
+	*/
+	
+	public boolean canMove(Position pos, Position destPos){
+		Piece p = BOARD[pos.positionX][pos.positionY];
+		int move = p.MOVE;
+		int dirX =-(pos.positionX-destPos.positionX) ;
+		int dirY =-( pos.positionY-destPos.positionY);
+	
+		int initY =pos.positionY;
+		int initX = pos.positionX;
+		int end = 0;
+		int increment = 0;
+		
+		if(dirX!=0){
+			if(dirX>move)
+				return false;
+			
+			if(dirX>0){
+				end = destPos.positionX;
+				increment = 1;
+			}
+			else if(dirX<0){
+				end = destPos.positionX;
+				increment = -1;
+			}
+			initX+=increment;
+			while(initX!=end){
+				if(BOARD[initX][initY]!=null)
+					return false;
+				initX+=increment;
+			}
+			if(BOARD[initX][initY]!=null){
+				if(BOARD[initX][initY].sameTeam(p))
+					return false;
+				else
+					return true;
+			}
+			return true;
+		}
+		else if(dirY!=0){
+			
+			if(dirY>move){
+				
+				return false;
+			}
+			
+			if(dirY>0){
+				end = destPos.positionY;
+				increment = 1;
+			}
+			else if(dirY<0){
+				end = destPos.positionY;
+				increment = -1;
+			}
+			initY+=increment;
+			while(initY!=end){
+				if(BOARD[initX][initY]!=null)
+					return false;
+				initY+=increment;
+			}
+			if(BOARD[initX][initY]!=null){
+				if(BOARD[initX][initY].sameTeam(p))
+					return false;
+				else
+					return true;
+			}
+			return true;
+		}
+		return false;
 	}
 	
-	
-	
-	
 }
+	
+	
+	
+
 
 
 
