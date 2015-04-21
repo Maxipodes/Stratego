@@ -28,6 +28,7 @@ public class GamePanel extends JPanel{
 			int posY = e.getY();
 			Position pos = new Position(posX, posY);
 			Position coord = pixToCoord(pos);
+			
 			if(piecePos!=null){
 				destPos=coord;
 				if(boardGame.canMove(piecePos, destPos)){
@@ -37,8 +38,9 @@ public class GamePanel extends JPanel{
 					else if(boardGame.BOARD[destPos.positionX][destPos.positionY].TEAM!=Team.BLUE){
 						gameController.attack(piecePos, destPos);
 					}
+					piecePos = null;
 				}
-				piecePos = null;
+				
 			}
 			else if(boardGame.BOARD[coord.positionX][coord.positionY]!=null){
 				if(boardGame.BOARD[coord.positionX][coord.positionY].TEAM==Team.BLUE){

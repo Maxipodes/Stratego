@@ -314,7 +314,7 @@ public class BoardGame
 		}
 		return 0;
 	}
-	/*
+	
 	public boolean canMove(Position p, Position d) 
 	{
 		
@@ -419,8 +419,8 @@ public class BoardGame
 		return false;
 	
 	}
-	*/
 	
+	/*
 	public boolean canMove(Position pos, Position destPos){
 		Piece p = BOARD[pos.positionX][pos.positionY];
 		int move = p.MOVE;
@@ -491,7 +491,7 @@ public class BoardGame
 		}
 		return false;
 	}
-	
+	*/
 }
 	
 	

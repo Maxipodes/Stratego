@@ -24,6 +24,9 @@ public class BoardGameTest {
 	Piece miner;
 	Piece marshal;
 	Piece spy;
+	Piece bomb2;
+	Piece scout2;
+	Piece spy2;
 	
 	@Before public void init(){
 		bg =  BoardGame.getBoardGame();
@@ -53,6 +56,22 @@ public class BoardGameTest {
 		spy.setPosition(1, 1);
 		board[2][0]=spy;
 		spy.setTeam(Team.RED);
+		
+		bomb2 = new Bomb();
+		bomb2.setPosition(8, 8);
+		board[8][8]=bomb2;
+		bomb2.setTeam(Team.BLUE);
+		
+
+		scout2 = new Scout();
+		scout2.setPosition(0, 5);
+		board[0][5]=scout2;
+		scout2.setTeam(Team.BLUE);
+		
+		spy2 = new Spy();
+		spy2.setPosition(9, 9);
+		board[9][9]=spy2;
+		spy2.setTeam(Team.RED);
 	}
 	
 	@Test
@@ -67,12 +86,17 @@ public class BoardGameTest {
 	@Test
 	public void canMoveTest(){
 		Assert.assertTrue(bg.canMove(marshal.position, spy.position));//sur un ennemie
-		Assert.assertFalse(bg.canMove(scout.position, bomb.position));//sur un allié
+	//	Assert.assertFalse(bg.canMove(scout.position, bomb.position));//sur un allié géré par interGraph
 		Assert.assertTrue(bg.canMove(marshal.position, new Position(0, 2)));//devant lui
 		Assert.assertFalse(bg.canMove(marshal.position, new Position(0, 3)));//2 cases devant
 		Assert.assertFalse(bg.canMove(bomb.position,new Position(1, 1) ));//D'un pion qui ne peut pas bouger
 		Assert.assertFalse(bg.canMove(scout.position, new Position(0,9)));//passer au dessus d un autre pion
 		Assert.assertFalse(bg.canMove(marshal.position, new Position(1,2)));//en diagonale
+		Assert.assertFalse(bg.canMove(bomb.position,new Position(8, 7) ));
+		Assert.assertFalse(bg.canMove(bomb.position,new Position(7, 8) ));
+		Assert.assertFalse(bg.canMove(bomb.position,new Position(9, 8) ));
+		Assert.assertFalse(bg.canMove(marshal.position, scout2.position));
+		Assert.assertFalse(bg.canMove(spy2.position, new Position(9, 6)));
 	}
 
 }

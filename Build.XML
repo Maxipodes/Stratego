@@ -1,11 +1,11 @@
 <project name="Stratego" basedir="." default="run">
 
-    <property name="src.dir"        value="src"/>
+    <property name="src.dir"       location="src"/>
 
-    <property name="bin.dir"        value="bin"/>
-    <property name="testC.dir"      value="bin/test"/>
-    <property name="tests.dir"      value="src/test"/>
-    <property name="Doc.dir"        value="Doc"/>
+    <property name="bin.dir"       location="bin"/>
+    <property name="testC.dir"     location="bin/test"/>
+    <property name="tests.dir"     location="src/test"/>
+    <property name="Doc.dir"       location="Doc"/>
     <property name="junit.path"     value="lib/junit-4.8.1.jar"/>
 
 

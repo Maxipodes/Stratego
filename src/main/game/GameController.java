@@ -8,6 +8,32 @@ import main.game.Pieces.Piece;
 
 public class GameController {
 
+	public class ShowTimer extends TimerTask{
+		private Position winner;
+		private Piece p;
+		private Position att;
+		private Position defend;
+		
+		public ShowTimer(Position winner, Position att, Piece pieceDef){
+			this.winner=winner;
+			p = pieceDef;
+			this.att = att;
+			defend = p.position;
+			
+		}
+		
+		public ShowTimer(Position winner, Piece pieceAtt, Position defend) {
+			this.winner=winner;
+			p = pieceAtt;
+			att = p.position;
+			this.defend = defend;
+		}
+
+		public void run() {
+			gamePanel.hidePiece(p);
+			showWinner(winner, att, defend);
+		}
+	}
 	
 	
 	AI ai;
@@ -46,26 +72,15 @@ public class GameController {
 		Piece pieceDef = boardGame.BOARD[defend.positionX][defend.positionY];
 		Position winner =ai.attack(pieceAtt, defend);
 		Timer t = new Timer();
-		final class ShowTimer extends TimerTask{
-			Piece piece;
-			public ShowTimer(Piece p){
-				piece=p;
-			}
-			public void run() {
-				gamePanel.hidePiece(piece);
-				showWinner(winner, pieceAtt.position, defend);
-			}
-			
-		}
+
 		if(pieceDef.TEAM!=Team.BLUE){
 			gamePanel.showPiece(pieceDef);
-			t.schedule(new ShowTimer(pieceDef),2000);
+			t.schedule(new ShowTimer(winner, att, pieceDef),2000);
 		}
 		else{
 			gamePanel.showPiece(pieceAtt);
-			t.schedule(new ShowTimer(pieceAtt),2000);
+			t.schedule(new ShowTimer(winner, pieceAtt, defend),2000);
 		}
-		
 	}
 	
 	private void showWinner(Position winner, Position att, Position defend) {
@@ -75,7 +90,8 @@ public class GameController {
 			boardGame.BOARD[att.positionX][att.positionY]=null;
 			boardGame.BOARD[defend.positionX][defend.positionY]=null;
 		}
-		else if(winner.equals(defend)){
+		else if(winner.positionX==defend.positionX && 
+				winner.positionY==defend.positionY){
 			gamePanel.refresh(att);
 			boardGame.BOARD[att.positionX][att.positionY]=null;
 		}

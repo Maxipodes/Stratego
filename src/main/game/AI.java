@@ -200,11 +200,11 @@ public class AI
 			if (piece.isStronger(board.BOARD[direction.positionX][direction.positionY]))
 					posSurvivor=piece.position;
 			
-			else if(board.BOARD[direction.positionX][direction.positionY].isStronger(piece))
-				posSurvivor = direction;
+			else if(piece.isEquals(board.BOARD[direction.positionX][direction.positionY]))
+				posSurvivor = null;
 	
 			else
-				posSurvivor= null;
+				posSurvivor= direction;
 			
 			return posSurvivor;
 			
