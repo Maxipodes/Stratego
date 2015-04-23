@@ -1,26 +1,18 @@
 package main.game;
 
-import main.game.Pieces.Lake;
-import main.game.Pieces.Marshal;
-import main.game.Pieces.Piece;
+import main.game.Pieces.*;
+import main.game.Pieces.Spy;
 
 public class BoardGame
 {
 	public static void main(String[] args)
 	{
-		Piece p=new Marshal();
-		p.setTeam(Team.BLUE);
-		p.setPosition(4, 6);
-		boardGame.BOARD[4][6]=p;
 		BoardGame boardGame = getBoardGame();
 		boardGame.randFillInBoardGame();
 		BoardGame bob = getBoardGame();
 		bob.printTab();
-		System.out.println(bob.canMove(bob.BOARD[3][3].position, new Position(4,3)));
-		System.out.println(bob.canMove(bob.BOARD[4][3].position, new Position(4, 4)));
-		System.out.println(bob.canMove(bob.BOARD[4][3].position, new Position(5, 4)));
-		System.out.println(bob.canMove(bob.BOARD[0][0].position, new Position(0,0)));
-		System.out.println(bob.canMove(bob.BOARD[4][6].position, new Position(5,7)));
+		Position p = new Position(6,1);
+		System.out.println(bob.canMove(bob.BOARD[3][0].position, p));
 	}
 	
 	public static int LENGTHX;
@@ -32,6 +24,7 @@ public class BoardGame
 	int UP;
 	public Team teamRed;
 	public Team teamBlue;
+	
 	
 	private static BoardGame instance = null;
 	
@@ -51,7 +44,6 @@ public class BoardGame
 		LENGTHX = 10;
 		LENGTHY = 10;
 		BOARD = createBoardGame(LENGTHX,LENGTHY);
-		
 		teamRed = new Team(Team.RED);
 		teamBlue = new Team(Team.BLUE);
 	}	
@@ -71,29 +63,28 @@ public class BoardGame
 		return list;
 	}
 	
-	public void setBoardGame(Piece[][] pieceTab){
-		BOARD = pieceTab;
-	}
-	
-	public void printTab()
+	private void printTab()
 	{ 
-		for(int j=0; j < BOARD[0].length;j ++)
+		for(int i=0; i < BOARD.length; i++)
 		{
-			for(int i=0; i < BOARD.length; i++)
+			for(int j=0; j < BOARD[0].length;j ++)
 			{
-				if (BOARD[i][j] != null){
-					Position pos = BOARD[i][j].position;
-					System.out.print("("+pos.positionX+", "+pos.positionY+")");	
-				}
-				
+				if (BOARD[i][j] != null)
+					System.out.print(" "+BOARD[i][j].NAME +" | "+BOARD[i][j].position.positionX+ ","+BOARD[i][j].position.positionY +" || ");	
 				else 
-					System.out.print("XXXXXX");
+					System.out.print(" X"+" | "+i+","+j+" || ");
 			}
 			System.out.println();
 		}
 	}
+	
+	public void setBoardGame(Piece[][] pieceTab){
+		BOARD = pieceTab;
+	}
 
 	public static BoardGame boardGame = getBoardGame();
+	
+	public static Piece[] charachter = {new Spy(),new Scout(),new Miner(),new Sergeant(),new Lieutenant(),new Captain(),new Major(),new Colonel(),new General(),new Marshal(),new Flag(),new Bomb()};
 	
 	public void fillIn(Piece p, int x, int y)
 	{
@@ -167,11 +158,11 @@ public class BoardGame
 		}			
 	}			 
 	
-	public  void randFillInBoardGame()
+	public void randFillInBoardGame()
 	{
 		Piece[] list = teamRed.charachter;
 		fillInBoardGame(list);
-		for(int k = 0; k <4; k++)
+		for(int k = 0; k < 4; k++)
 		{
 			for(int i = 0; i < BOARD.length; i++)
 			{
@@ -182,6 +173,14 @@ public class BoardGame
 				swap(p.position,l.position);
 			}
 		}
+		int count = 0;
+			for(int m = 0; m < BOARD[3].length ; m ++)
+			{	
+				if (BOARD[3][m] instanceof Bomb)
+					count ++;
+			}
+			if (count == 6)
+				randFillInBoardGame();	
 	}
 	
 	public Piece[][] helpList() 
@@ -263,6 +262,7 @@ public class BoardGame
 		}	
 		return i;
 	}	
+		
 	
 	public boolean isOneMove(Position p, Position d) 
 	{
@@ -275,8 +275,7 @@ public class BoardGame
 		else if ((BOARD[p.positionX][p.positionY].position.positionY - d.positionY) == (1))
 			return true;
 		return false;
-		
-			
+				
 	}	
 	
 	
@@ -315,9 +314,8 @@ public class BoardGame
 		return 0;
 	}
 	
-	public boolean canMove(Position p, Position d) 
+	public boolean canMove(Position p)
 	{
-		
 		if (BOARD[p.positionX][p.positionY].MOVE == 0)
 			return false;	
 	
@@ -328,10 +326,26 @@ public class BoardGame
 			return false;
 		
 		else if (isNextToSide(p) && numberFriendsNextTo(p) == 3)
-			return false;		
-		
-		else if (isDirectionInLine(p, d)==false)
 			return false;
+		return true;
+	}
+	
+	public boolean canMove(Position p, Position d) 
+	{
+		if (isDirectionInLine(p, d)==false)
+			return false;
+		
+		else if (BOARD[p.positionX][p.positionY].MOVE == 0)
+			return false;	
+	
+		else if (numberFriendsNextTo(p) == 4)
+			return false;
+		
+		else if (isNextToCorner(p) && numberFriendsNextTo(p) == 2)
+			return false;
+		
+		else if (isNextToSide(p) && numberFriendsNextTo(p) == 3)
+			return false;		
 		
 		else if (BOARD[p.positionX][p.positionY].MOVE == 1)
 		{
@@ -350,6 +364,9 @@ public class BoardGame
 						continue;
 								
 					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i-1]))
+						return false;
+					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i-1]) == false)
 						return false;
 								
 					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][d.positionY]))
@@ -370,6 +387,9 @@ public class BoardGame
 					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i+1]))
 						return false;
 					
+					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i+1]) == false)
+						return false;
+					
 					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
 						return false;
 					
@@ -386,6 +406,9 @@ public class BoardGame
 						continue;
 					
 					else if (BOARD[i+1][p.positionY].sameTeam(BOARD[i+1][p.positionY]))
+						return false;
+					
+					else if (BOARD[i+1][p.positionY].sameTeam(BOARD[i+1][p.positionY]) == false)
 						return false;
 					
 					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
@@ -407,6 +430,9 @@ public class BoardGame
 					else if (BOARD[i-1][p.positionY].sameTeam(BOARD[i+1][p.positionY]))
 						return false;
 					
+					else if (BOARD[i-1][p.positionY].sameTeam(BOARD[i+1][p.positionY]) == false)
+						return false;
+					
 					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
 						return false;
 					
@@ -417,86 +443,12 @@ public class BoardGame
 			}	
 		}
 		return false;
-	
 	}
 	
-	/*
-	public boolean canMove(Position pos, Position destPos){
-		Piece p = BOARD[pos.positionX][pos.positionY];
-		int move = p.MOVE;
-		int dirX =-(pos.positionX-destPos.positionX) ;
-		int dirY =-( pos.positionY-destPos.positionY);
 	
-		int initY =pos.positionY;
-		int initX = pos.positionX;
-		int end = 0;
-		int increment = 0;
-		
-		if(dirX!=0 && dirY!=0)
-			return false;
-		if(dirX!=0){
-			if(dirX>move)
-				return false;
-			
-			if(dirX>0){
-				end = destPos.positionX;
-				increment = 1;
-			}
-			else if(dirX<0){
-				end = destPos.positionX;
-				increment = -1;
-			}
-			initX+=increment;
-			while(initX!=end){
-				if(BOARD[initX][initY]!=null)
-					return false;
-				initX+=increment;
-			}
-			if(BOARD[initX][initY]!=null){
-				if(BOARD[initX][initY].sameTeam(p))
-					return false;
-				else
-					return true;
-			}
-			return true;
-		}
-		else if(dirY!=0){
-			
-			if(dirY>move){
-				
-				return false;
-			}
-			
-			if(dirY>0){
-				end = destPos.positionY;
-				increment = 1;
-			}
-			else if(dirY<0){
-				end = destPos.positionY;
-				increment = -1;
-			}
-			initY+=increment;
-			while(initY!=end){
-				if(BOARD[initX][initY]!=null)
-					return false;
-				initY+=increment;
-			}
-			if(BOARD[initX][initY]!=null){
-				if(BOARD[initX][initY].sameTeam(p))
-					return false;
-				else
-					return true;
-			}
-			return true;
-		}
-		return false;
-	}
-	*/
+	
+	
 }
-	
-	
-	
-
 
 
 

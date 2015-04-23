@@ -86,10 +86,10 @@ public class BoardGameTest {
 	@Test
 	public void canMoveTest(){
 		Assert.assertTrue(bg.canMove(marshal.position, spy.position));//sur un ennemie
-	//	Assert.assertFalse(bg.canMove(scout.position, bomb.position));//sur un allié géré par interGraph
+	//	Assert.assertFalse(bg.canMove(scout.position, bomb.position));//sur un allie gere par interGraph
 		Assert.assertTrue(bg.canMove(marshal.position, new Position(0, 2)));//devant lui
 		Assert.assertFalse(bg.canMove(marshal.position, new Position(0, 3)));//2 cases devant
-		Assert.assertFalse(bg.canMove(bomb.position,new Position(1, 1) ));//D'un pion qui ne peut pas bouger
+		Assert.assertFalse(bg.canMove(bomb.position,new Position(1, 1) ));//D un pion qui ne peut pas bouger
 		Assert.assertFalse(bg.canMove(scout.position, new Position(0,9)));//passer au dessus d un autre pion
 		Assert.assertFalse(bg.canMove(marshal.position, new Position(1,2)));//en diagonale
 		Assert.assertFalse(bg.canMove(bomb.position,new Position(8, 7) ));

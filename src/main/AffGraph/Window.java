@@ -27,7 +27,7 @@ import main.AffGraph.Panel.PlacementPanel;
 
 /**
  * @author Maxime
- *Cette classe permet la création d un objet Window qui est une fenetre 
+ *Cette classe permet la creation d un objet Window qui est une fenetre 
  *dont on peut changer le conntenu
  */
 public class Window extends JFrame {
@@ -39,7 +39,7 @@ public class Window extends JFrame {
 	}
 	
 	/**
-	 * Cette classe est un listenner invoquant la méthode switchpanel a chaque pression de bouton 
+	 * Cette classe est un listenner invoquant la methode switchpanel a chaque pression de bouton 
 	 * d un objet window
 	 * @author Maxime
 	 *
@@ -68,7 +68,7 @@ public class Window extends JFrame {
 		}
 	}
 	
-	public JPanel[] panelDisplayer = new JPanel[4];      //Contient les différents panels a afficher
+	public JPanel[] panelDisplayer = new JPanel[4];      //Contient les differents panels a afficher
 	private int currentPanel ;
 	private MainPanel mainPanel ;
 
@@ -104,7 +104,7 @@ public class Window extends JFrame {
 
 	/**
 	 * 
-	 * @return la résolution maximum de l'écran
+	 * @return la resolution maximum de l'ecran
 	 */
 	private static Rectangle getMaxBounds(){
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -125,7 +125,7 @@ public class Window extends JFrame {
 		super.repaint();
 	}
 	
-	/** crée un conteneur qui contient le menu principal
+	/** cree un conteneur qui contient le menu principal
 	 * @return un Jpannel 
 	 */
 	private JPanel createMenu(){
@@ -138,7 +138,7 @@ public class Window extends JFrame {
 	}
 	
 
-	/** crée un conteneur qui contient le panel des options de jeu
+	/** cree un conteneur qui contient le panel des options de jeu
 	 * @return un Jpannel
 	 */
 	private JPanel createModSelect(){

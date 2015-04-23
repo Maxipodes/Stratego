@@ -29,8 +29,18 @@ public class GamePanel extends JPanel{
 			Position pos = new Position(posX, posY);
 			Position coord = pixToCoord(pos);
 			
-			if(piecePos!=null){
+			if(piecePos==null){
+				if(boardGame.BOARD[coord.positionX][coord.positionY]!=null){
+					if(boardGame.BOARD[coord.positionX][coord.positionY].TEAM==Team.BLUE){
+						piecePos = coord;
+						System.out.println(piecePos+"   "+"piecePos");
+					}
+				}
+			}
+
+			else if(piecePos!=null){
 				destPos=coord;
+				System.out.println(destPos+"   "+"destPos");
 				if(boardGame.canMove(piecePos, destPos)){
 					if(boardGame.BOARD[destPos.positionX][destPos.positionY]==null){
 						gameController.move(piecePos, destPos);
@@ -38,16 +48,12 @@ public class GamePanel extends JPanel{
 					else if(boardGame.BOARD[destPos.positionX][destPos.positionY].TEAM!=Team.BLUE){
 						gameController.attack(piecePos, destPos);
 					}
-					piecePos = null;
 				}
+				else
+					System.out.println("Can t move");
+				piecePos = null;
 				
 			}
-			else if(boardGame.BOARD[coord.positionX][coord.positionY]!=null){
-				if(boardGame.BOARD[coord.positionX][coord.positionY].TEAM==Team.BLUE){
-					piecePos = coord;
-				}
-			}
-			
 			
 		}
 
@@ -81,6 +87,8 @@ public class GamePanel extends JPanel{
 	ImageIcon background;
 	BoardGame boardGame;
 	GameController gameController;
+	int caseWidth;
+	int caseHeight;
 	
 	public GamePanel(){
 		super();
@@ -148,7 +156,7 @@ public class GamePanel extends JPanel{
 		repaint(rect);
 		
 		Position newMovedPos =coordToPix(movedPos);
-		getGraphics().drawImage(p.getImage(), newMovedPos.positionX, newMovedPos.positionY, null);
+		getGraphics().drawImage(p.getImage(), newMovedPos.positionX, newMovedPos.positionY, caseWidth, caseHeight, null);
 	}
 	
 	public void refresh(Position pos){
@@ -160,13 +168,13 @@ public class GamePanel extends JPanel{
 	public void showPiece(Piece p){
 		Position coord = p.position;
 		Position pos = coordToPix(coord);
-		getGraphics().drawImage(p.getShownImage(), pos.positionX, pos.positionY, this);
+		getGraphics().drawImage(p.getShownImage(), pos.positionX, pos.positionY,caseWidth, caseHeight, this);
 	}
 	
 	public void hidePiece(Piece p){
 		Position coord = p.position;
 		Position pos = coordToPix(coord);
-		getGraphics().drawImage(p.getImage(), pos.positionX, pos.positionY, this);
+		getGraphics().drawImage(p.getImage(), pos.positionX, pos.positionY,caseWidth, caseHeight, this);
 	}
 	
 	public void upDateBoardGame(){
@@ -179,6 +187,10 @@ public class GamePanel extends JPanel{
 		height = super.getHeight();
 		width = super.getWidth();
 		
+		caseWidth = width/10;
+		caseHeight = height/10;
+	
+		
 		g.drawImage( background.getImage(), 0, 0, null);
 		
 		for(Piece[] line:this.boardGame.BOARD){
@@ -186,7 +198,7 @@ public class GamePanel extends JPanel{
 				if(character != null){
 					Position newPos = coordToPix(character.position);
 					g.drawImage(character.getImage(), newPos.positionX, 
-							newPos.positionY, null);
+							newPos.positionY,caseWidth, caseHeight,null);
 				}
 			}
 		}

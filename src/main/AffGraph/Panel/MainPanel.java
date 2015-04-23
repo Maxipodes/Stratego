@@ -21,7 +21,7 @@ import main.game.Pieces.Piece;
 /**
  * @author Maxime
  * 
- * Cette classe parmet de créer un conteneur qui affiche le plateau de jeu
+ * Cette classe parmet de creer un conteneur qui affiche le plateau de jeu
  * 
  */
 public class MainPanel extends JPanel {
@@ -35,7 +35,7 @@ public class MainPanel extends JPanel {
 		InfoPanel killedPiecePanel = new InfoPanel();
 		killedPiecePanel.setBackground(Color.RED);
 		killedPiecePanel.setLayout(new BoxLayout(killedPiecePanel, BoxLayout.PAGE_AXIS));
-		killedPiecePanel.add(new JLabel("Pieces ennemies tuées"));
+		killedPiecePanel.add(new JLabel("Pieces ennemies tuees"));
 		for(Piece piece : BoardGame.getBoardGame().teamRed.charachter){
 			killedPiecePanel.add(Box.createRigidArea(new Dimension(0, 30)));
 			killedPiecePanel.add(new InfoPieceEnnemies(piece));
@@ -45,7 +45,7 @@ public class MainPanel extends JPanel {
 		InfoPanel lostPiecePanel = new InfoPanel();
 		lostPiecePanel.setBackground(Color.CYAN);
 		lostPiecePanel.setLayout(new BoxLayout(lostPiecePanel, BoxLayout.PAGE_AXIS));
-		lostPiecePanel.add(new JLabel("Pieces alliées perdues"));
+		lostPiecePanel.add(new JLabel("Pieces alliees perdues"));
 		for(Piece piece : BoardGame.getBoardGame().teamBlue.charachter){
 			lostPiecePanel.add(Box.createRigidArea(new Dimension(0, 30)));
 			lostPiecePanel.add(new InfoPieceAllies(piece));

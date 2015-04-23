@@ -33,7 +33,7 @@ public class AlliePiecePanel extends JPanel{
 				if(p!=null){
 					Position newPos = coordToPix(p.position);
 					g.drawImage(p.getImage(), newPos.positionX
-							,newPos.positionY, this);
+							,newPos.positionY,caseWidth, caseHeight, this);
 				}
 			}
 		}

@@ -6,7 +6,7 @@
     <property name="testC.dir"     location="bin/test"/>
     <property name="tests.dir"     location="src/test"/>
     <property name="Doc.dir"       location="Doc"/>
-    <property name="junit.path"     value="lib/junit-4.8.1.jar"/>
+    <property name="junit.path"     location="lib/junit.jar"/>
 
 
     <target name="clean">
@@ -31,7 +31,8 @@
     </target>
 
     <target name="test" depends="build">
-        <junit printsummary="yes" showoutput="yes" haltonerror="false">
+        <junit printsummary="yes" showoutput="yes" haltonerror="false" fork="true">
+	<formatter type="plain" usefile="false" />
             <classpath>
                 <pathelement path="${junit.path}" />
                 <pathelement path="${bin.dir}" />
