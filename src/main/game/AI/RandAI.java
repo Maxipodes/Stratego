@@ -1,13 +1,26 @@
-package main.game;
+package main.game.AI;
 
+import main.game.Position;
+import main.game.Team;
 import main.game.Pieces.Piece;
 
-public class RandAI
+public class RandAI extends AI implements Playable
 {
 	
-	static AI randAI = AI.getAI();
+	AI randAI ;
+	static AI instance = null;
 	
-	public static int countContenant()
+	private RandAI(){
+		randAI  = super.getAI();
+	}
+	
+	public static AI getAI(){
+		if(instance == null)
+			instance= new RandAI();
+		return instance;
+	}
+	
+	public int countContenant()
 	{
 		int count = 0;
 		for(int i=0; i < randAI.board.BOARD.length; i++)
@@ -21,7 +34,7 @@ public class RandAI
 		return count;
 	}
 	
-	public static void RandPlay()
+	public void play()
 	{
 		Piece[] list = new Piece[countContenant()];
 		int pos = 0;
@@ -30,9 +43,12 @@ public class RandAI
 			for(int j=0; j < randAI.board.BOARD[0].length;j ++)
 			{
 				Position p = new Position(i,j);
-				if(randAI.board.BOARD != null)
+				System.out.println("---------------------------------------------");
+				System.out.println(p);
+				if(randAI.board.BOARD[i][j] != null)
 				{
-					if(randAI.board.BOARD[i][j].TEAM == 1)
+					System.out.println(randAI.board.BOARD[i][j]);
+					if(randAI.board.BOARD[i][j].TEAM == Team.RED)
 					{
 						p.positionX = i;
 						p.positionY = j;
@@ -57,16 +73,16 @@ public class RandAI
 		// listPossiblePosition contains possible directions 
 		int numberPossiblePosition = listPossiblePosition.length;
 		// numberPossiblePosition is the number of possible directions
-		int randNum2 = (int) ((Math.random())*(numberPossiblePosition+1));
+		int randNum2 = (int) ((Math.random())*(numberPossiblePosition-1));
 		
 		if(listPossiblePosition[randNum2] != null) 
 		{	
-			randAI.attack(list2[randNum],listPossiblePosition[randNum2]);
+			randAI.gc.attack(list2[randNum].position,listPossiblePosition[randNum2]);
 		}
 		
 		else
 		{	
-			randAI.board.setMoveCharacter(list2[randNum].position,listPossiblePosition[randNum2]);
+			randAI.gc.move(list2[randNum].position,listPossiblePosition[randNum2]);
 		}	
 			
 	}

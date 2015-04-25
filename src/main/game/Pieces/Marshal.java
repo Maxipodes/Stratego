@@ -12,6 +12,7 @@ public class Marshal extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =9;
 	}
 
 	public Marshal construct()

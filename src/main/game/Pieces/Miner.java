@@ -12,7 +12,7 @@ public class Miner extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
-		
+		ref =2;
 	}
 
 	public Miner construct()

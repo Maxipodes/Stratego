@@ -13,6 +13,7 @@ public class Colonel extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =7;
 	}
 
 	public Colonel construct()

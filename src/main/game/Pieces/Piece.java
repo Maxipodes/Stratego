@@ -26,6 +26,7 @@ public abstract class Piece
 	ImageIcon SHOWN_IMAGE;
 	public boolean SEEN;
 	public boolean hasMove;
+	public int ref;
 
 	
 	public abstract Piece construct();

@@ -12,6 +12,7 @@ public class Spy extends Piece
 		SEEN = false;
 		hasMove = false;
 		currentNumber = 0;
+		ref = 0;
 	}
 	
 	public Spy construct()

@@ -13,6 +13,7 @@ public class Lieutenant extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =4;
 	}
 
 	public Lieutenant construct()

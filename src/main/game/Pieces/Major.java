@@ -13,6 +13,7 @@ public class Major extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =6;
 	}
 
 	public Major construct()

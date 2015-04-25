@@ -1,11 +1,14 @@
-package main.game;
+package main.game.AI;
 
+import main.game.BoardGame;
+import main.game.GameController;
+import main.game.Position;
 import main.game.Pieces.Marshal;
 import main.game.Pieces.Piece;
 import main.game.Pieces.Scout;
 import main.game.Pieces.Spy;
 
-public class AI
+public class AI implements Playable
 {
 	public static void main(String[] args)
 	{
@@ -14,11 +17,12 @@ public class AI
 
 	public int gameTurn;
 	public BoardGame board;
+	public GameController gc;
 	
 	public AI() 
 	{
-		int gameTurn = 0;
 		board = BoardGame.getBoardGame();
+		gc=GameController.getGameController();
 	}
 	
 	private static AI instance = null;
@@ -180,8 +184,7 @@ public class AI
 						if(numberInside(list) != 0)
 						{
 							Position[] list2 = possibleMove(pos);
-							
-							
+								
 						}
 						break;	
 							
@@ -208,6 +211,12 @@ public class AI
 			
 			return posSurvivor;
 			
+	}
+
+	@Override
+	public void play() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }	

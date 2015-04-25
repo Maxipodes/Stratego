@@ -9,6 +9,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import main.game.AI.AI;
 import main.game.BoardGame;
 import main.game.GameController;
 import main.game.Position;
@@ -24,37 +25,40 @@ public class GamePanel extends JPanel{
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			int posX = e.getX();
-			int posY = e.getY();
-			Position pos = new Position(posX, posY);
-			Position coord = pixToCoord(pos);
+			System.out.println(gameController.getGameTurn());
+			if(gameController.getGameTurn()==0){
+				int posX = e.getX();
+				int posY = e.getY();
+				Position pos = new Position(posX, posY);
+				Position coord = pixToCoord(pos);
 			
-			if(piecePos==null){
-				if(boardGame.BOARD[coord.positionX][coord.positionY]!=null){
-					if(boardGame.BOARD[coord.positionX][coord.positionY].TEAM==Team.BLUE){
-						piecePos = coord;
-						System.out.println(piecePos+"   "+"piecePos");
+				if(piecePos==null){
+					if(boardGame.BOARD[coord.positionX][coord.positionY]!=null){
+						if(boardGame.BOARD[coord.positionX][coord.positionY].TEAM==Team.BLUE){
+							piecePos = coord;
+							System.out.println(piecePos+"   "+"piecePos");
+						}
 					}
 				}
-			}
 
-			else if(piecePos!=null){
-				destPos=coord;
-				System.out.println(destPos+"   "+"destPos");
-				if(boardGame.canMove(piecePos, destPos)){
-					if(boardGame.BOARD[destPos.positionX][destPos.positionY]==null){
-						gameController.move(piecePos, destPos);
+				else if(piecePos!=null){
+					destPos=coord;
+					System.out.println(destPos+"   "+"destPos");
+					if(boardGame.canMove(piecePos, destPos)){
+						if(boardGame.BOARD[destPos.positionX][destPos.positionY]==null){
+							gameController.move(piecePos, destPos);
+						}
+						else if(boardGame.BOARD[destPos.positionX][destPos.positionY].TEAM!=Team.BLUE){
+							gameController.attack(piecePos, destPos);
+						}
 					}
-					else if(boardGame.BOARD[destPos.positionX][destPos.positionY].TEAM!=Team.BLUE){
-						gameController.attack(piecePos, destPos);
-					}
-				}
-				else
-					System.out.println("Can t move");
-				piecePos = null;
+					else
+						System.out.println("Can t move");
+					piecePos = null;
 				
-			}
+				}
 			
+			}
 		}
 
 
@@ -89,8 +93,9 @@ public class GamePanel extends JPanel{
 	GameController gameController;
 	int caseWidth;
 	int caseHeight;
+	public MainPanel mainPanel ;
 	
-	public GamePanel(){
+	public GamePanel(MainPanel mp){
 		super();
 		super.addMouseListener(new ControlListener());
 		String image ="."+File.separator+"src"+File.separator+
@@ -100,11 +105,16 @@ public class GamePanel extends JPanel{
 		boardGame =BoardGame.getBoardGame();
 		boardGame.randFillInBoardGame();
 		gameController = GameController.getGameController(this);
+		mainPanel=mp;
 
 	}
 	
 	public void setBoardGame(Piece[][] tab){
 		boardGame.setBoardGame(tab);
+	}
+	
+	public void setAI(AI ai){
+		gameController.setAI(ai);
 	}
 	
 	public void setPlacement(Piece[][] pieceTab){
@@ -122,18 +132,16 @@ public class GamePanel extends JPanel{
 		int newWidth = p.positionX*caseWidth;
 		int newHeight = p.positionY*caseHeight;
 		
-		int decalage = (caseWidth-80)/2;
 		
-		return new Position(newWidth+decalage, newHeight);
+		return new Position(newWidth, newHeight);
 		
 	}
 	
 	private Position pixToCoord(Position position) {
 		int caseHeight = height/10;
 		int caseWidth = width/10;
-		int decalage = (caseWidth-80)/2;
 		
-		int coordX = (position.positionX-decalage)/caseWidth;
+		int coordX = position.positionX/caseWidth;
 		int coordY = position.positionY/caseHeight;
 		return new Position(coordX, coordY);
 	}

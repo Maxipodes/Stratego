@@ -7,19 +7,24 @@ import java.awt.Graphics;
 
 import javax.swing.JLabel;
 
+import main.game.Team;
 import main.game.Pieces.Piece;
 
 /**
  * @author Maxime
  *
  */
-public class InfoPieceEnnemies  extends JLabel implements InfoPiece  {
+public class InfoPieceEnnemies  extends JLabel{
 	
 	private Piece piece;
+	private Team team;
+	private int ref;
 	
-	public InfoPieceEnnemies(Piece p){
+	public InfoPieceEnnemies(Piece p, Team t){
 		super();
-		String text = p.NAME+" :  "+(p.NUMBER-p.currentNumber)+"/"+p.NUMBER;
+		team =t;
+		ref =p.ref;
+		String text = p.NAME+" :  "+(p.NUMBER-team.charachter[p.ref].currentNumber)+"/"+p.NUMBER;
 		super.setText(text);
 		
 		piece=p;
@@ -27,15 +32,11 @@ public class InfoPieceEnnemies  extends JLabel implements InfoPiece  {
 			
 	}
 
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		String text = piece.NAME+" :  "+piece.currentNumber+"/"+piece.NUMBER;
+		System.out.println(team.charachter[ref].currentNumber+ " currentNumber");
+		String text = piece.NAME+" :  "+(piece.NUMBER-team.charachter[ref].currentNumber)+"/"+piece.NUMBER;
 		super.setText(text);
 	}
 

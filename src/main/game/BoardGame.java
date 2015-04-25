@@ -151,8 +151,10 @@ public class BoardGame
 				}
 				if(numberPiece==currentPiece.NUMBER)
 				{
+					teamRed.charachter[currentPiece.ref].currentNumber=numberPiece;
 					x++;
 					numberPiece=0;
+					
 				}
 			}
 		}			

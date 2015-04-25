@@ -12,6 +12,7 @@ public class Bomb extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =11;
 	}
 	
 	public Bomb construct()

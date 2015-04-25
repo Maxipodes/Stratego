@@ -38,7 +38,7 @@ public class MainPanel extends JPanel {
 		killedPiecePanel.add(new JLabel("Pieces ennemies tuees"));
 		for(Piece piece : BoardGame.getBoardGame().teamRed.charachter){
 			killedPiecePanel.add(Box.createRigidArea(new Dimension(0, 30)));
-			killedPiecePanel.add(new InfoPieceEnnemies(piece));
+			killedPiecePanel.add(new InfoPieceEnnemies(piece, BoardGame.getBoardGame().teamRed));
 			
 		}
 		
@@ -48,11 +48,11 @@ public class MainPanel extends JPanel {
 		lostPiecePanel.add(new JLabel("Pieces alliees perdues"));
 		for(Piece piece : BoardGame.getBoardGame().teamBlue.charachter){
 			lostPiecePanel.add(Box.createRigidArea(new Dimension(0, 30)));
-			lostPiecePanel.add(new InfoPieceAllies(piece));
+			lostPiecePanel.add(new InfoPieceAllies(piece, BoardGame.getBoardGame().teamBlue));
 			
 		}
 		
-		GamePanel gamePanel = new GamePanel();
+		GamePanel gamePanel = new GamePanel(this);
 		this.GAME_PANEL = gamePanel;
 
 		super.add(killedPiecePanel, BorderLayout.WEST);

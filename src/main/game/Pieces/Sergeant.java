@@ -12,7 +12,7 @@ public class Sergeant extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
-		
+		ref =3;
 	}
 
 	public Sergeant construct()

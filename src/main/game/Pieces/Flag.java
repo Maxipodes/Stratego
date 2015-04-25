@@ -13,6 +13,7 @@ public class Flag extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =10;
 	}
 
 	public Flag construct()

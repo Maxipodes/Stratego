@@ -14,6 +14,7 @@ public class Scout extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =1;
 	}
 
 	public Scout construct()

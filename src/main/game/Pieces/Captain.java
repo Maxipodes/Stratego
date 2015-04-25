@@ -12,6 +12,7 @@ public class Captain extends Piece
 		currentNumber = 0;
 		SEEN = false;
 		hasMove = false;
+		ref =5;
 	}
 
 	public Captain construct()
