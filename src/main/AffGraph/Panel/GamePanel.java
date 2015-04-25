@@ -25,7 +25,7 @@ public class GamePanel extends JPanel{
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			System.out.println(gameController.getGameTurn());
+			System.out.println(gameController.getGameTurn()+ " GameTurn");
 			if(gameController.getGameTurn()==0){
 				int posX = e.getX();
 				int posY = e.getY();

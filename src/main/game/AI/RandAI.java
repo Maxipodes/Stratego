@@ -43,12 +43,9 @@ public class RandAI extends AI implements Playable
 			for(int j=0; j < randAI.board.BOARD[0].length;j ++)
 			{
 				Position p = new Position(i,j);
-				System.out.println("---------------------------------------------");
-				System.out.println(p);
-				if(randAI.board.BOARD[i][j] != null)
+				if(randAI.board.BOARD != null)
 				{
-					System.out.println(randAI.board.BOARD[i][j]);
-					if(randAI.board.BOARD[i][j].TEAM == Team.RED)
+					if(randAI.board.BOARD[i][j].TEAM == 1)
 					{
 						p.positionX = i;
 						p.positionY = j;
@@ -73,7 +70,7 @@ public class RandAI extends AI implements Playable
 		// listPossiblePosition contains possible directions 
 		int numberPossiblePosition = listPossiblePosition.length;
 		// numberPossiblePosition is the number of possible directions
-		int randNum2 = (int) ((Math.random())*(numberPossiblePosition-1));
+		int randNum2 = (int) ((Math.random())*(numberPossiblePosition+1));
 		
 		if(listPossiblePosition[randNum2] != null) 
 		{	

@@ -84,8 +84,6 @@ public class BoardGame
 
 	public static BoardGame boardGame = getBoardGame();
 	
-	public static Piece[] charachter = {new Spy(),new Scout(),new Miner(),new Sergeant(),new Lieutenant(),new Captain(),new Major(),new Colonel(),new General(),new Marshal(),new Flag(),new Bomb()};
-	
 	public void fillIn(Piece p, int x, int y)
 	{
 			Piece piece = p.construct();
@@ -317,11 +315,8 @@ public class BoardGame
 	}
 	
 	public boolean canMove(Position p)
-	{
-		if (BOARD[p.positionX][p.positionY].MOVE == 0)
-			return false;	
-	
-		else if (numberFriendsNextTo(p) == 4)
+	{	
+		if (numberFriendsNextTo(p) == 4)
 			return false;
 		
 		else if (isNextToCorner(p) && numberFriendsNextTo(p) == 2)
@@ -360,118 +355,43 @@ public class BoardGame
 		{	
 			if (returnDirection(p, d) == LEFT)
 			{
-				for(int i = p.positionY; i > d.positionY; i--)
+				for(int i = p.positionY; i > d.positionY-1; i--)
 				{						
-					if (BOARD[p.positionX][i-1]==null)
-						continue;
-								
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i-1]))
+					if(BOARD[p.positionX][i-1]!= null)
 						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i-1]) == false)
-						return false;
-								
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][d.positionY]))
-						return false;
-								
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][d.positionY]) == false)
-						return true;
 				}
-				return true;
+				return BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false;
 			}	
 			else if (returnDirection(p, d) == RIGHT)
 			{
-				for(int i = p.positionY; i < d.positionY; i++)
+				for(int i = p.positionY; i < d.positionY+1; i++)
 				{						
-					if (BOARD[p.positionX][i+1]==null)
-						continue;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i+1]))
+					if(BOARD[p.positionX][i+1]!= null)
 						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[p.positionX][i+1]) == false)
-						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
-						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false)
-						return true;
 				}
-				return true;
+				return (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false);
 			}
 			else if (returnDirection(p, d) == DOWN)
 			{
-				for(int i = p.positionX; i < d.positionX; i++)
+				for(int i = p.positionX; i < d.positionX+1; i++)
 				{						
-					if (BOARD[i+1][p.positionY]==null)
-						continue;
-					
-					else if (BOARD[i+1][p.positionY].sameTeam(BOARD[i+1][p.positionY]))
+					if (BOARD[i+1][p.positionY]!=null)
 						return false;
-					
-					else if (BOARD[i+1][p.positionY].sameTeam(BOARD[i+1][p.positionY]) == false)
-						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
-						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false)
-						return true;
 				}
-				return true;
+				return (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false);
 			}
 			
 			else if (returnDirection(p, d) == UP)
 			{
-				for(int i = p.positionX; i < d.positionX; i--)
+				for(int i = p.positionX; i < d.positionX-1; i--)
 				{						
-					if (BOARD[i-1][p.positionY]==null)
-						continue;
-					
-					else if (BOARD[i-1][p.positionY].sameTeam(BOARD[i+1][p.positionY]))
+					if (BOARD[i-1][p.positionY]!=null)
 						return false;
-					
-					else if (BOARD[i-1][p.positionY].sameTeam(BOARD[i+1][p.positionY]) == false)
-						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]))
-						return false;
-					
-					else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false)
-						return true;
 				}
-				return true;
+				return (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY]) == false);
 			}	
 		}
 		return false;
 	}
 	
-	
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
