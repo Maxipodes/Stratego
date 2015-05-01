@@ -65,7 +65,7 @@ public class Window extends JFrame {
 			ButtonMod bm =(ButtonMod) e.getSource();
 			GameMod mod = bm.getMod();
 			mp.GAME_PANEL.setBoardGame(mod.getBoardGame());
-		//	mp.GAME_PANEL.setAI(mod.getAI());
+			mp.GAME_PANEL.setAI(mod.getAI());
 		}
 	}
 	

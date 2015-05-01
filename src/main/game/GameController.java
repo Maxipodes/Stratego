@@ -49,14 +49,15 @@ public class GameController {
 		gameTurn =0;
 	}
 	
-	public void setAI(AI ai){
-		this.ai=ai;
-	}
-	
 	public static GameController getGameController(GamePanel gp){
 		if(instance==null)
 			instance =  new GameController(gp);
 		return instance;
+	}
+
+
+	public void setAI(AI ai){
+		this.ai=ai;
 	}
 	
 	public int getGameTurn(){
@@ -75,11 +76,49 @@ public class GameController {
 			gamePanel.upDateBoardGame();
 			gameTurn = (gameTurn+1)%2;
 			ai.play();
+		}
+	}
+
+	public void moveWithoutAI(Position previous, Position next){
+		if(boardGame.canMove(previous, next)){
+			gamePanel.refresh(previous, next);
+			boardGame.setMoveCharacter(previous, next);
+			gamePanel.upDateBoardGame();
 			gameTurn = (gameTurn+1)%2;
 		}
 	}
 	
+	
 	public void attack(Position att, Position defend){
+
+		if(Math.abs(att.positionX-defend.positionX)>1 ||
+				Math.abs(att.positionY-defend.positionY)>1){
+			att=bringCloser(att, defend);
+		}
+		System.out.println("after bringCloser ");		
+	
+		Piece pieceAtt = boardGame.BOARD[att.positionX][att.positionY];
+		Piece pieceDef = boardGame.BOARD[defend.positionX][defend.positionY];
+		Position winner =ai.attack(pieceAtt, defend);
+		Timer t = new Timer();
+
+		if(pieceDef.TEAM!=Team.BLUE){
+			gamePanel.showPiece(pieceDef);
+			t.schedule(new ShowTimer(winner, att, pieceDef),2000);
+		}
+		else{
+			gamePanel.showPiece(pieceAtt);
+			t.schedule(new ShowTimer(winner, pieceAtt, defend),2000);
+		}
+		System.out.println("after showPiece et hidePiece ");		
+	
+		gamePanel.mainPanel.paintComponent(gamePanel.mainPanel.getGraphics());
+		gameTurn = (gameTurn+1)%2;
+		System.out.println("before play ");
+		ai.play();
+	}
+
+	public void attackWithoutAI(Position att, Position defend){
 		
 		if(Math.abs(att.positionX-defend.positionX)>1 ||
 				Math.abs(att.positionY-defend.positionY)>1){
@@ -101,9 +140,8 @@ public class GameController {
 		}
 		gamePanel.mainPanel.paintComponent(gamePanel.mainPanel.getGraphics());
 		gameTurn = (gameTurn+1)%2;
-		ai.play();
-		gameTurn = (gameTurn+1)%2;
 	}
+	
 	
 	private void showWinner(Position winner, Position att, Position defend) {
 		int refAtt =boardGame.BOARD[att.positionX][att.positionY].ref;
@@ -176,7 +214,7 @@ public class GameController {
 			}
 		}
 		Position closerPos = new Position(closerPosX, closerPosY);
-		move(prev, closerPos );
+		moveWithoutAI(prev, closerPos );
 		return closerPos;
 	}
 }

@@ -221,9 +221,9 @@ public class BoardGame
 			return true;
 		else if(BOARD[p.positionX][p.positionY].position.positionY == 0)
 			return true;
-		else if(BOARD[p.positionX][p.positionY].position.positionY == BOARD.length)
+		else if(BOARD[p.positionX][p.positionY].position.positionX == (BOARD.length-1))
 			return true;
-		else if(BOARD[p.positionX][p.positionY].position.positionY == BOARD[0].length)
+		else if(BOARD[p.positionX][p.positionY].position.positionY ==(BOARD[0].length-1))
 			return true;
 		return false;	
 	}
@@ -232,11 +232,11 @@ public class BoardGame
 	{
 		if((BOARD[p.positionX][p.positionY].position.positionX == 0)&&(BOARD[p.positionX][p.positionY].position.positionY == 0))
 			return true;
-		else if((BOARD[p.positionX][p.positionY].position.positionX == 0)&&(BOARD[p.positionX][p.positionY].position.positionY == BOARD[0].length))
+		else if((BOARD[p.positionX][p.positionY].position.positionX == 0)&&(BOARD[p.positionX][p.positionY].position.positionY == (BOARD[0].length-1)))
 			return true;
-		else if((BOARD[p.positionX][p.positionY].position.positionX == BOARD.length)&&(BOARD[p.positionX][p.positionY].position.positionY == 0))
+		else if((BOARD[p.positionX][p.positionY].position.positionX == (BOARD.length-1))&&(BOARD[p.positionX][p.positionY].position.positionY == 0))
 			return true;
-		else if((BOARD[p.positionX][p.positionY].position.positionX == BOARD.length)&&(BOARD[p.positionX][p.positionY].position.positionY == BOARD[0].length))
+		else if((BOARD[p.positionX][p.positionY].position.positionX == (BOARD.length-1))&&(BOARD[p.positionX][p.positionY].position.positionY == (BOARD[0].length-1)))
 			return true;
 		return false;		
 	}
@@ -344,18 +344,22 @@ public class BoardGame
 		else if (isNextToSide(p) && numberFriendsNextTo(p) == 3)
 			return false;		
 		
+		else if (BOARD[p.positionX][p.positionY].sameTeam(BOARD[d.positionX][d.positionY])) 
+			return false;
+		
 		else if (BOARD[p.positionX][p.positionY].MOVE == 1)
 		{
 			if (isOneMove(p,d))
 				return true;
 			return false;
 		}
-					
+		
+		
 		else if (BOARD[p.positionX][p.positionY].MOVE > 1)
 		{	
 			if (returnDirection(p, d) == LEFT)
 			{
-				for(int i = p.positionY; i > d.positionY-1; i--)
+				for(int i = p.positionY; i > d.positionY+1; i--)
 				{						
 					if(BOARD[p.positionX][i-1]!= null)
 						return false;
@@ -364,7 +368,7 @@ public class BoardGame
 			}	
 			else if (returnDirection(p, d) == RIGHT)
 			{
-				for(int i = p.positionY; i < d.positionY+1; i++)
+				for(int i = p.positionY; i < d.positionY-1; i++)
 				{						
 					if(BOARD[p.positionX][i+1]!= null)
 						return false;
@@ -373,7 +377,7 @@ public class BoardGame
 			}
 			else if (returnDirection(p, d) == DOWN)
 			{
-				for(int i = p.positionX; i < d.positionX+1; i++)
+				for(int i = p.positionX; i < d.positionX-1; i++)
 				{						
 					if (BOARD[i+1][p.positionY]!=null)
 						return false;
@@ -383,7 +387,7 @@ public class BoardGame
 			
 			else if (returnDirection(p, d) == UP)
 			{
-				for(int i = p.positionX; i < d.positionX-1; i--)
+				for(int i = p.positionX; i < d.positionX+1; i--)
 				{						
 					if (BOARD[i-1][p.positionY]!=null)
 						return false;
