@@ -48,10 +48,6 @@ public class AlliePiecePanel extends JPanel{
 		
 	}
 	
-	public Piece[][] getAllieTab(){
-		return alliePiece;
-	}
-	
 	public void addInAllieTab(Piece p, Position pos){
 		alliePiece[pos.positionX][pos.positionY]=p;
 		p.setPosition(pos.positionX, pos.positionY);
@@ -79,5 +75,20 @@ public class AlliePiecePanel extends JPanel{
 			}
 		}
 		return true;
+	}
+	
+	public int countPiece(){
+		int counter =0;
+		for(Piece[] line : alliePiece){
+			for(Piece piece: line){
+				if(piece!=null)
+					counter++;
+			}
+		}
+		return counter;
+	}
+	
+	public void clearTab(){
+		alliePiece=new Piece[10][4];
 	}
 }

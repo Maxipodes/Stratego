@@ -14,31 +14,37 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import main.AffGraph.Panel.TextOwner;
+import main.AffGraph.Panel.PlacementPanel;
 
-public class InputWindow extends JFrame implements TextOwner {
+public class InputWindow extends JFrame{
 	
 	private class IsReady implements ActionListener{
 		
 		public void actionPerformed(ActionEvent e) {
-			isReady=true;
+			if(mod==pp.SAVE)
+				pp.save(getText());
+			else
+				pp.load(getText());
+			InputWindow.this.dispose();
 		}
 		
 	}
 	
 	private JTextField textField;
-	public boolean isReady ;
+	private PlacementPanel pp;
+	private int mod ;
 	/**
 	 * create a window with a JTextField , a JLabel and a JButton 
 	 */
-	public InputWindow(){
+	public InputWindow(PlacementPanel pp, int mod){
 		super();
+		this.pp = pp;
+		this.mod=mod;
+		
 		super.setTitle("Fenetre de selection");
 		super.setSize(new Dimension(300, 150));
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setVisible(true);
-		
-		isReady = false;
 		
 		JPanel panel = new JPanel(new GridLayout(3, 0));
 		panel.add(new JLabel("Saississez le nom du fichier"));

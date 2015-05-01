@@ -12,7 +12,6 @@ import main.game.Pieces.Piece;
 
 public class SelectPanel extends JPanel {
 	
-	public main.game.Pieces.Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
 	int width;
 	public int caseWidth;
 	
@@ -30,19 +29,21 @@ public class SelectPanel extends JPanel {
 	}
 	
 	public void reInit(){
+		Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
 		for(Piece p : tab){
-			p.currentNumber=p.NUMBER;
+			p.currentNumber=0;
 		}
 	}
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
 		width = super.getWidth();
 		caseWidth = width/12;
 		
 		for(int i=0; i<tab.length; i++){
 			int pos = coordToPix(i);
-			g.drawImage(tab[i].getImage(), pos, 0,caseWidth, caseWidth, this);
+			g.drawImage(tab[i].getImage(), pos, 0,caseWidth, 70, this);
 			String numberRemaining =Integer.toString(tab[i].NUMBER-tab[i].currentNumber);
 			g.drawString(numberRemaining, pos+32, 96);
 		}

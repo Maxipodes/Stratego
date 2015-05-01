@@ -1,6 +1,7 @@
 package main.AffGraph.Panel;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,12 +53,13 @@ public class PlacementPanel extends JPanel {
 		}
 
 		public void mousePressed(MouseEvent e) {
+			Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
 			int posX = e.getX();
 			int posY = e.getY();
 			if(posY<=selectPanel.getHeight()){
 				coordRef = pixToCoord(posX);
-				if(selectPanel.tab[coordRef].NUMBER -selectPanel.tab[coordRef].currentNumber >0)
-					currentPiece = selectPanel.tab[coordRef].construct();
+				if(tab[coordRef].NUMBER -tab[coordRef].currentNumber >0)
+					currentPiece = tab[coordRef].construct();
 					currentPiece.setTeam(Team.BLUE);
 					swap = false;
 			}
@@ -72,6 +74,7 @@ public class PlacementPanel extends JPanel {
 		}
 
 		public void mouseReleased(MouseEvent e) {
+			Piece[] tab = BoardGame.getBoardGame().teamBlue.charachter;
 			int posX = e.getX();
 			int posY = e.getY();
 			if(posY>selectPanel.getHeight()){
@@ -81,11 +84,10 @@ public class PlacementPanel extends JPanel {
 						swap=false;
 				}
 				else{
-					if(selectPanel.tab[coordRef].NUMBER!=
-							selectPanel.tab[coordRef].currentNumber){
+					if(tab[coordRef].NUMBER!=tab[coordRef].currentNumber){
 						System.out.println(newPos);
 						if(alliePanel.alliePiece[newPos.positionX][newPos.positionY]==null){
-							selectPanel.tab[coordRef].addCurrentNumber();
+							tab[coordRef].addCurrentNumber();
 							alliePanel.addInAllieTab(currentPiece, newPos);
 						}
 					}
@@ -101,7 +103,7 @@ public class PlacementPanel extends JPanel {
 		public void actionPerformed(ActionEvent e){
 			if(alliePanel.isComplete()){
 				MainPanel mp = (MainPanel)window.panelDisplayer[3];
-				mp.GAME_PANEL.setPlacement(alliePanel.getAllieTab());
+				mp.GAME_PANEL.setPlacement(alliePanel.alliePiece);
 				window.switchPanel(1);
 			}
 			else{
@@ -113,49 +115,25 @@ public class PlacementPanel extends JPanel {
 
 	}
 	
-	
-	public class LoadListener implements ActionListener{
-
-		@Override
+	private class CallInput implements ActionListener{
+		
+		int mod;
+		public CallInput(int mod){
+			this.mod=mod;
+		}
+		
 		public void actionPerformed(ActionEvent e) {
-			
-			InputWindow iw = new InputWindow();
-			File file;
-			do{
-				file =new File("."+File.separator+"src"+File.separator+
-						"save"+File.separator+"PlacementSave"+File.separator+iw.getText()+".tmp");
-			
-			}while(!(file.exists()));
-			load(file);
-			selectPanel.reInit();
-			paintComponent(getGraphics());
+			InputWindow iw = new InputWindow(PlacementPanel.this, mod );
 		}
 		
 	}
-	
-	public class SaveListener implements ActionListener{
-		
-		public void actionPerformed(ActionEvent e) {
-			
-			InputWindow iw = new InputWindow();
-			while(!(iw.isReady)){
-				// do nothing until iw.isReady is true 
-				//ie until user click on "Ok" button
-			}
-			File file = new File("."+File.separator+"src"+File.separator+
-					"save"+File.separator+"PlacementSave"+File.separator+iw.getText()+".tmp");
-			save(file);
-			selectPanel.reInit();
-			paintComponent(getGraphics());
-		}
-		
-	}
-	
 	
 	
 	SelectPanel selectPanel;
 	AlliePiecePanel alliePanel;
 	Window window;
+	public int SAVE=0;
+	public int LOAD=1;
 	
 	public PlacementPanel(Window w){
 		super();
@@ -191,7 +169,11 @@ public class PlacementPanel extends JPanel {
 	private JPanel createEastPanel(){
 
 		JButton loadButton = new JButton("Charger");
+		loadButton.addActionListener(new CallInput(LOAD));
+		
 		JButton saveButton = new JButton("Sauver");
+		saveButton.addActionListener(new CallInput(SAVE));
+		
 		JButton confirmButton = new JButton("Confirmer");
 		confirmButton.addActionListener(new ConfirmListener());
 		
@@ -224,11 +206,13 @@ public class PlacementPanel extends JPanel {
 	 * This method save piece placement in "fileName".tmp
 	 * @param fileName
 	 */
-	private void save(File file){
+	private void streamSave(File file){
+		int numberPiece = alliePanel.countPiece();
 		ObjectOutputStream oos;
 		try{
 			oos = new ObjectOutputStream(new FileOutputStream(file));
 			try{
+				oos.writeInt(numberPiece);
 				for(Piece[] line : alliePanel.alliePiece){
 					for(Piece piece: line){
 						if(piece!=null)
@@ -247,21 +231,20 @@ public class PlacementPanel extends JPanel {
 		
 	}
 	
-	private void load(File file){
+	private void streamLoad(File file){
 		ObjectInputStream ois;
 		
 		try{
 			ois = new ObjectInputStream(new FileInputStream(file));
 			
 			try{
-				Piece currentPiece =(Piece) ois.readObject();
-				if(currentPiece!=null){
-					do{
+				int numberObject = ois.readInt();
+				Piece currentPiece;
+				for(int i=0; i<numberObject; i++){
+						currentPiece =(Piece) ois.readObject() ;
 						alliePanel.alliePiece[currentPiece.position.positionX][currentPiece.position.positionY]
 								=currentPiece;
-						currentPiece=(Piece)ois.readObject();
-						BoardGame.getBoardGame().teamBlue.charachter[currentPiece.ref].currentNumber-=1;
-					}while(currentPiece!=null);
+						BoardGame.getBoardGame().teamBlue.charachter[currentPiece.ref].currentNumber+=1;	
 				}
 				
 			}catch (ClassNotFoundException e){
@@ -278,6 +261,27 @@ public class PlacementPanel extends JPanel {
 		
 	}
 	
+	public void save(String str){
+		File file = new File("."+File.separator+"src"+File.separator+
+				"save"+File.separator+"PlacementSave"+File.separator+str+".tmp");
+		streamSave(file);
+	}
 	
+	public void load(String str){
+		File file;
+			file =new File("."+File.separator+"src"+File.separator+
+					"save"+File.separator+"PlacementSave"+File.separator+str+".tmp");
+		if(file.exists()){
+			alliePanel.clearTab();
+			selectPanel.reInit();
+			streamLoad(file);
+			paintComponent(getGraphics());
+		}
+	}
+	
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		super.paintChildren(g);
+	}
 
 }
