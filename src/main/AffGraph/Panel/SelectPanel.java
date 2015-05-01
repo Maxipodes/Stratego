@@ -7,6 +7,7 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 
 import main.game.BoardGame;
+import main.game.Pieces.Piece;
 
 
 public class SelectPanel extends JPanel {
@@ -28,6 +29,12 @@ public class SelectPanel extends JPanel {
 		
 	}
 	
+	public void reInit(){
+		for(Piece p : tab){
+			p.currentNumber=p.NUMBER;
+		}
+	}
+	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		width = super.getWidth();
@@ -35,7 +42,7 @@ public class SelectPanel extends JPanel {
 		
 		for(int i=0; i<tab.length; i++){
 			int pos = coordToPix(i);
-			g.drawImage(tab[i].getImage(), pos, 0, this);
+			g.drawImage(tab[i].getImage(), pos, 0,caseWidth, caseWidth, this);
 			String numberRemaining =Integer.toString(tab[i].NUMBER-tab[i].currentNumber);
 			g.drawString(numberRemaining, pos+32, 96);
 		}

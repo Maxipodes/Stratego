@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.AffGraph;
+package main.AffGraph.Windows;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;

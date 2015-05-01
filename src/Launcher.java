@@ -1,4 +1,4 @@
-import main.AffGraph.Window;
+import main.AffGraph.Windows.Window;
 
 public class Launcher{
 	public static void main(String[] args){

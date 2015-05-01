@@ -2,13 +2,17 @@ package main.game.Pieces;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
 import main.game.Position;
 import main.game.Team;
 
-public abstract class Piece 
+public abstract class Piece implements Serializable
 {
 	public static void main(String[] args) 
 	{
@@ -107,4 +111,50 @@ public abstract class Piece
 		return SHOWN_IMAGE.getImage();
 	}
 	
+	/**
+	 * This method is use to recover Pieces object
+	 * 
+	 * @param ois
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void readObject(ObjectInputStream ois)throws IOException
+	, ClassNotFoundException{
+		this.NAME=ois.readUTF();
+		this.RANK=ois.readInt();
+		this.WEAKNESS=ois.readInt();
+		this.position=(Position) ois.readObject();
+		this.NUMBER=ois.readInt();
+		this.MOVE=ois.readInt();
+		this.currentNumber=ois.readInt();
+		this.TEAM=ois.readInt();
+		this.IMAGE=(ImageIcon) ois.readObject();
+		this.SHOWN_IMAGE=(ImageIcon) ois.readObject();
+		this.SEEN=ois.readBoolean();
+		this.hasMove=ois.readBoolean();
+		this.ref=ois.readInt();
+	}
+	/**
+	 * this method is use to save Pieces object
+	 * 
+	 * @param oos
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void writeObject(ObjectOutputStream oos)throws IOException
+	, ClassNotFoundException{
+		oos.writeUTF(NAME);
+		oos.writeInt(RANK);
+		oos.writeInt(WEAKNESS);
+		oos.writeObject(position);
+		oos.writeInt(NUMBER);
+		oos.writeInt(MOVE);
+		oos.writeInt(currentNumber);
+		oos.writeInt(TEAM);
+		oos.writeObject(IMAGE);
+		oos.writeObject(SHOWN_IMAGE);
+		oos.writeBoolean(SEEN);
+		oos.writeBoolean(hasMove);
+		oos.writeInt(ref);
+	}
 }

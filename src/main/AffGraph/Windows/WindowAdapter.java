@@ -1,4 +1,4 @@
-package main.AffGraph;
+package main.AffGraph.Windows;
 
 import java.awt.Component;
 import java.awt.event.WindowEvent;

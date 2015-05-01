@@ -6,13 +6,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import main.AffGraph.Window;
+import main.AffGraph.Windows.InputWindow;
+import main.AffGraph.Windows.Window;
 import main.game.Pieces.Piece;
+import main.game.BoardGame;
 import main.game.Position;
 import main.game.Team;
 
@@ -106,6 +114,45 @@ public class PlacementPanel extends JPanel {
 	}
 	
 	
+	public class LoadListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			InputWindow iw = new InputWindow();
+			File file;
+			do{
+				file =new File("."+File.separator+"src"+File.separator+
+						"save"+File.separator+"PlacementSave"+File.separator+iw.getText()+".tmp");
+			
+			}while(!(file.exists()));
+			load(file);
+			selectPanel.reInit();
+			paintComponent(getGraphics());
+		}
+		
+	}
+	
+	public class SaveListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e) {
+			
+			InputWindow iw = new InputWindow();
+			while(!(iw.isReady)){
+				// do nothing until iw.isReady is true 
+				//ie until user click on "Ok" button
+			}
+			File file = new File("."+File.separator+"src"+File.separator+
+					"save"+File.separator+"PlacementSave"+File.separator+iw.getText()+".tmp");
+			save(file);
+			selectPanel.reInit();
+			paintComponent(getGraphics());
+		}
+		
+	}
+	
+	
+	
 	SelectPanel selectPanel;
 	AlliePiecePanel alliePanel;
 	Window window;
@@ -173,5 +220,64 @@ public class PlacementPanel extends JPanel {
 		Position newPos = new Position(newX, newY);
 		return newPos;
 	}
+	/**
+	 * This method save piece placement in "fileName".tmp
+	 * @param fileName
+	 */
+	private void save(File file){
+		ObjectOutputStream oos;
+		try{
+			oos = new ObjectOutputStream(new FileOutputStream(file));
+			try{
+				for(Piece[] line : alliePanel.alliePiece){
+					for(Piece piece: line){
+						if(piece!=null)
+							oos.writeObject(piece);
+					}
+				}
+			}
+			finally{
+				oos.close();
+			}
+		}
+		catch(IOException e){
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+	}
+	
+	private void load(File file){
+		ObjectInputStream ois;
+		
+		try{
+			ois = new ObjectInputStream(new FileInputStream(file));
+			
+			try{
+				Piece currentPiece =(Piece) ois.readObject();
+				if(currentPiece!=null){
+					do{
+						alliePanel.alliePiece[currentPiece.position.positionX][currentPiece.position.positionY]
+								=currentPiece;
+						currentPiece=(Piece)ois.readObject();
+						BoardGame.getBoardGame().teamBlue.charachter[currentPiece.ref].currentNumber-=1;
+					}while(currentPiece!=null);
+				}
+				
+			}catch (ClassNotFoundException e){
+				e.printStackTrace();
+				
+			}finally{
+				ois.close();
+			}
+			
+		}catch(IOException e){
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+	}
+	
+	
 
 }
