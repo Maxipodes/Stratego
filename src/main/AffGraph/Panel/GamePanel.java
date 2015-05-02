@@ -95,6 +95,7 @@ public class GamePanel extends JPanel{
 	int caseWidth;
 	int caseHeight;
 	public MainPanel mainPanel ;
+	GamePanel instance;
 	
 	public GamePanel(MainPanel mp){
 		super();
@@ -103,10 +104,10 @@ public class GamePanel extends JPanel{
 				"Image"+File.separator+"Logo.jpg";
 		
 		background = new ImageIcon(image);
-		boardGame =BoardGame.getBoardGame();
-		boardGame.randFillInBoardGame();
 		gameController = GameController.getGameController(this);
+		boardGame =gameController.getBoardGame();
 		mainPanel=mp;
+		instance=this;
 
 	}
 	
@@ -116,6 +117,11 @@ public class GamePanel extends JPanel{
 	
 	public void setAI(AI ai){
 		gameController.setAI(ai);
+	}
+	
+	public void SetGameController(GameController gc){
+		gameController=gc;
+		boardGame=gameController.getBoardGame();
 	}
 	
 	public void setPlacement(Piece[][] pieceTab){

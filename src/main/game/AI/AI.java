@@ -1,5 +1,10 @@
 package main.game.AI;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import main.game.BoardGame;
 import main.game.GameController;
 import main.game.Position;
@@ -8,13 +13,8 @@ import main.game.Pieces.Piece;
 import main.game.Pieces.Scout;
 import main.game.Pieces.Spy;
 
-public class AI implements Playable
+public class AI implements Playable, Serializable
 {
-	public static void main(String[] args)
-	{
-		
-	}
-
 	public int gameTurn;
 	public BoardGame board;
 	public GameController gc;
@@ -217,6 +217,20 @@ public class AI implements Playable
 	public void play() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void readObject(ObjectInputStream ois)throws IOException
+	, ClassNotFoundException{
+		gameTurn = ois.readInt();
+		board = (BoardGame)ois.readObject();
+		gc= (GameController) ois.readObject();
+	}
+	
+	private void writeObject(ObjectOutputStream oos)throws IOException
+	, ClassNotFoundException{
+		oos.writeInt(gameTurn);
+		oos.writeObject(board);
+		oos.writeObject(gc);
 	}
 	
 }	

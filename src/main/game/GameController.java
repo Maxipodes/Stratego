@@ -1,5 +1,12 @@
 package main.game;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -7,7 +14,7 @@ import main.AffGraph.Panel.GamePanel;
 import main.game.AI.AI;
 import main.game.Pieces.Piece;
 
-public class GameController {
+public class GameController implements Serializable {
 
 	public class ShowTimer extends TimerTask{
 		private Position winner;
@@ -216,5 +223,50 @@ public class GameController {
 		Position closerPos = new Position(closerPosX, closerPosY);
 		moveWithoutAI(prev, closerPos );
 		return closerPos;
+	}
+
+	public BoardGame getBoardGame() {
+		return boardGame;
+	}
+	
+	public void setGamePanel(GamePanel gp){
+		gamePanel=gp;
+	}
+	
+	private void readObject(ObjectInputStream ois)throws IOException
+	, ClassNotFoundException{
+		ai=(AI) ois.readObject();
+		boardGame=(BoardGame) ois.readObject();
+		gameTurn=ois.readInt();
+		instance=this;
+	}
+	
+	private void writeObject(ObjectOutputStream oos)throws IOException
+	, ClassNotFoundException{
+		oos.writeObject(ai);
+		oos.writeObject(boardGame);
+		oos.writeInt(gameTurn);
+	}
+	
+	private void save(){
+		File destFile = new File("."+File.separator+"src"+File.separator
+				+"save"+File.separator+"GameSave"+File.separator+"gameSave.tmp");
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(destFile));
+			
+			try{
+				oos.writeObject(this);
+			}finally{
+				oos.close();
+			}
+			
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 }

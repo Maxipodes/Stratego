@@ -4,18 +4,29 @@
 package main.AffGraph.Windows;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import main.AffGraph.ButtonMod.ButtonMod;
@@ -23,6 +34,7 @@ import main.AffGraph.ButtonMod.EasyButton;
 import main.AffGraph.GameMod.GameMod;
 import main.AffGraph.Panel.MainPanel;
 import main.AffGraph.Panel.PlacementPanel;
+import main.game.GameController;
 
 
 /**
@@ -56,6 +68,47 @@ public class Window extends JFrame {
 			else
 				Window.this.switchPanel(1);	
 		}
+	}
+	
+	public class ContinueListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e){
+			
+			File savedFile = new File("."+File.separator+"src"+File.separator
+					+"save"+File.separator+"GameSave"+File.separator+"gameSave.tmp");
+			if(savedFile.exists()){
+				MainPanel mp = (MainPanel)panelDisplayer[3];
+				GameController gc ;
+				try {
+					ObjectInputStream ois = new ObjectInputStream(new FileInputStream(savedFile));
+					try{
+						gc= (GameController) ois.readObject();
+						mp.GAME_PANEL.SetGameController(gc);
+						Window.this.switchPanel(3);
+						savedFile.delete();
+						
+					}catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
+						System.exit(1);
+						
+					}finally{
+						ois.close();
+					}
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+					System.exit(1);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					System.exit(1);
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(null,"Vous n avez pas de sauvegarde de jeu",
+						"Information",JOptionPane.INFORMATION_MESSAGE);
+			}
+			
+		}
+		
 	}
 	
 	public class ModListener implements ActionListener{
@@ -132,10 +185,24 @@ public class Window extends JFrame {
 	private JPanel createMenu(){
 		JButton buttonPlay = new JButton("Jouer");
 		buttonPlay.addActionListener(new SwitchListenner());
-		JPanel panel=new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		panel.add(buttonPlay , c);    //Place le buttonPlay au centre du conteneur
-		return panel;
+		JButton buttonContinue =new JButton("Continuer");
+		buttonContinue.addActionListener(new ContinueListener());
+		
+		JPanel panelExt = new JPanel(new BorderLayout());
+		panelExt.add(Box.createRigidArea(new Dimension(560, 0)), BorderLayout.WEST);
+		panelExt.add(Box.createRigidArea(new Dimension(560, 0)), BorderLayout.EAST);
+		panelExt.add(Box.createRigidArea(new Dimension(0, 300)), BorderLayout.NORTH);
+		panelExt.add(Box.createRigidArea(new Dimension(0, 300)), BorderLayout.SOUTH);
+		
+		JPanel panel=new JPanel(new GridLayout(3, 0));
+		panel.add(buttonPlay);
+		panel.add(Box.createRigidArea(new Dimension(0, 75)));
+		panel.add(buttonContinue);
+		
+		
+		panelExt.add(panel, BorderLayout.CENTER);
+		
+		return panelExt;
 	}
 	
 

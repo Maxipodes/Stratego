@@ -1,9 +1,13 @@
 package main.game;
 
-import main.game.Pieces.*;
-import main.game.Pieces.Spy;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class BoardGame
+import main.game.Pieces.*;
+
+public class BoardGame implements Serializable
 {
 	public static void main(String[] args)
 	{
@@ -16,7 +20,7 @@ public class BoardGame
 	}
 	
 	public static int LENGTHX;
-	int LENGTHY;
+	public static int LENGTHY;
 	public Piece[][] BOARD;
 	int LEFT;
 	int RIGHT;
@@ -398,4 +402,39 @@ public class BoardGame
 		return false;
 	}
 	
+	private int countPiece(){
+		int counter=0;
+		for(Piece[] line:BOARD){
+			for(Piece piece:line){
+				if(piece!=null)
+					counter++;
+			}
+		}
+		return counter;
+	}
+	
+	private void writeObject(ObjectOutputStream oos)throws IOException
+	, ClassNotFoundException{
+		oos.writeInt(countPiece());
+		for(Piece[] line:BOARD){
+			for(Piece p:line){
+				if(p!=null)
+					oos.writeObject(p);
+			}
+		}
+		oos.writeObject(teamRed);
+		oos.writeObject(teamBlue);
+	}
+	
+	private void readObject(ObjectInputStream ois)throws IOException
+	, ClassNotFoundException{
+		int numberPiece=ois.readInt();
+		BOARD= new Piece[LENGTHY][LENGTHX];
+		for(int i=0; i<numberPiece; i++){
+			Piece p = (Piece) ois.readObject();
+			BOARD[p.position.positionX][p.position.positionY]=p;
+		}
+		teamRed=(Team) ois.readObject();
+		teamBlue=(Team) ois.readObject();
+	}
 }
