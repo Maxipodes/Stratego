@@ -36,9 +36,7 @@ public class Lake extends Piece
 		WEAKNESS = 0;	
 		MOVE = 0;		
 		position = new Position(x, y);
-		String image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"Mechant_mage.png";
-		IMAGE = new ImageIcon(image);
+		IMAGE = null;
 	}
 
 }

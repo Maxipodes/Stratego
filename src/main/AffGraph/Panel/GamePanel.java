@@ -25,38 +25,29 @@ public class GamePanel extends JPanel{
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			System.out.println(gameController.getGameTurn()+ " GameTurn");
 			if(gameController.getGameTurn()==0){
 				int posX = e.getX();
 				int posY = e.getY();
 				Position pos = new Position(posX, posY);
 				Position coord = pixToCoord(pos);
-
-				if(piecePos==null){
 					if(boardGame.BOARD[coord.positionX][coord.positionY]!=null){
 						if(boardGame.BOARD[coord.positionX][coord.positionY].TEAM==Team.BLUE){
 							piecePos = coord;
-							System.out.println(piecePos+"   "+"piecePos");
 						}
 					}
-				}
 
-				else if(piecePos!=null){
+				if(piecePos!=null){
 					destPos=coord;
-					System.out.println(destPos+"   "+"destPos");
 					if(boardGame.canMove(piecePos, destPos)){
 						if(boardGame.BOARD[destPos.positionX][destPos.positionY]==null){
 							gameController.move(piecePos, destPos);
 						}
 						else if(boardGame.BOARD[destPos.positionX][destPos.positionY].TEAM!=Team.BLUE){
-							System.out.println(piecePos+" attack "+destPos);
 							gameController.attack(piecePos, destPos);
 						}
+						piecePos = null;
 					}
-					else
-						System.out.println("Can t move");
-					piecePos = null;
-				
+	
 				}
 			
 			}
@@ -101,7 +92,7 @@ public class GamePanel extends JPanel{
 		super();
 		super.addMouseListener(new ControlListener());
 		String image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"Logo.jpg";
+				"Image"+File.separator+"Background.jpg";
 		
 		background = new ImageIcon(image);
 		gameController = GameController.getGameController(this);
@@ -165,7 +156,6 @@ public class GamePanel extends JPanel{
 	public void refresh(Position pos, Position movedPos){
 		Piece p = boardGame.BOARD[pos.positionX][pos.positionY];
 		
-		
 		Position newPos = coordToPix(pos);
 		Rectangle rect = getRect(newPos);
 		repaint(rect);
@@ -206,14 +196,16 @@ public class GamePanel extends JPanel{
 		caseHeight = height/10;
 	
 		
-		g.drawImage( background.getImage(), 0, 0, null);
+		g.drawImage( background.getImage(), 0, 0, width , height, null);
 		
 		for(Piece[] line:this.boardGame.BOARD){
 			for(Piece character:line){
 				if(character != null){
-					Position newPos = coordToPix(character.position);
-					g.drawImage(character.getImage(), newPos.positionX, 
-							newPos.positionY,caseWidth, caseHeight,null);
+					//if(character.getImage()!=null){
+						Position newPos = coordToPix(character.position);
+						g.drawImage(character.getImage(), newPos.positionX, 
+								newPos.positionY,caseWidth, caseHeight,null);
+					//}
 				}
 			}
 		}

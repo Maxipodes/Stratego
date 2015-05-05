@@ -319,8 +319,10 @@ public class BoardGame implements Serializable
 	}
 	
 	public boolean canMove(Position p)
-	{	
-		if (numberFriendsNextTo(p) == 4)
+	{
+		if (BOARD[p.positionX][p.positionY].MOVE == 0)
+			   return false;
+		else if (numberFriendsNextTo(p) == 4)
 			return false;
 		
 		else if (isNextToCorner(p) && numberFriendsNextTo(p) == 2)
@@ -391,8 +393,8 @@ public class BoardGame implements Serializable
 			
 			else if (returnDirection(p, d) == UP)
 			{
-				for(int i = p.positionX; i < d.positionX+1; i--)
-				{						
+				for(int i = p.positionX; i > d.positionX+1; i--)
+				{				
 					if (BOARD[i-1][p.positionY]!=null)
 						return false;
 				}

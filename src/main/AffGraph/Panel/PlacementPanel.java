@@ -79,21 +79,22 @@ public class PlacementPanel extends JPanel {
 			int posY = e.getY();
 			if(posY>selectPanel.getHeight()){
 				Position newPos = pixToCoord(new Position(posX, posY));
-				if(swap){
+				if(newPos.positionX<10 && newPos.positionY<4){
+					if(swap){
 						alliePanel.swap(oldPos, newPos);
 						swap=false;
-				}
-				else{
-					if(tab[coordRef].NUMBER!=tab[coordRef].currentNumber){
-						System.out.println(newPos);
-						if(alliePanel.alliePiece[newPos.positionX][newPos.positionY]==null){
-							tab[coordRef].addCurrentNumber();
-							alliePanel.addInAllieTab(currentPiece, newPos);
+					}
+					else{
+						if(tab[coordRef].NUMBER!=tab[coordRef].currentNumber){
+							if(alliePanel.alliePiece[newPos.positionX][newPos.positionY]==null){
+								tab[coordRef].addCurrentNumber();
+								alliePanel.addInAllieTab(currentPiece, newPos);
+							}
 						}
 					}
-				}
 				alliePanel.paintComponent(alliePanel.getGraphics());
 				selectPanel.paintComponent(selectPanel.getGraphics());
+				}
 			}
 		}
 		
@@ -123,7 +124,7 @@ public class PlacementPanel extends JPanel {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			InputWindow iw = new InputWindow(PlacementPanel.this, mod );
+			 new InputWindow(PlacementPanel.this, mod );
 		}
 		
 	}

@@ -43,7 +43,7 @@ public class InputWindow extends JFrame{
 		
 		super.setTitle("Fenetre de selection");
 		super.setSize(new Dimension(300, 150));
-		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setVisible(true);
 		
 		JPanel panel = new JPanel(new GridLayout(3, 0));

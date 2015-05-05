@@ -81,7 +81,7 @@ public class GameController implements Serializable {
 			gamePanel.refresh(previous, next);
 			boardGame.setMoveCharacter(previous, next);
 			gamePanel.upDateBoardGame();
-			gameTurn = (gameTurn+1)%2;
+			changeTurn();
 			ai.play();
 		}
 	}
@@ -91,10 +91,17 @@ public class GameController implements Serializable {
 			gamePanel.refresh(previous, next);
 			boardGame.setMoveCharacter(previous, next);
 			gamePanel.upDateBoardGame();
-			gameTurn = (gameTurn+1)%2;
+
 		}
 	}
 	
+	private void smoothMove(Position start, Position end){
+		
+	}
+	
+	public void changeTurn(){
+		gameTurn = (gameTurn+1)%2;
+	}
 	
 	public void attack(Position att, Position defend){
 
@@ -117,11 +124,15 @@ public class GameController implements Serializable {
 			gamePanel.showPiece(pieceAtt);
 			t.schedule(new ShowTimer(winner, pieceAtt, defend),2000);
 		}
-		System.out.println("after showPiece et hidePiece ");		
-	
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}		
+		changeTurn();
 		gamePanel.mainPanel.paintComponent(gamePanel.mainPanel.getGraphics());
-		gameTurn = (gameTurn+1)%2;
-		System.out.println("before play ");
 		ai.play();
 	}
 
@@ -145,8 +156,15 @@ public class GameController implements Serializable {
 			gamePanel.showPiece(pieceAtt);
 			t.schedule(new ShowTimer(winner, pieceAtt, defend),2000);
 		}
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
 		gamePanel.mainPanel.paintComponent(gamePanel.mainPanel.getGraphics());
-		gameTurn = (gameTurn+1)%2;
 	}
 	
 	

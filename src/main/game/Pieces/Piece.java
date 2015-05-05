@@ -14,9 +14,6 @@ import main.game.Team;
 
 public abstract class Piece implements Serializable
 {
-	public static void main(String[] args) 
-	{
-	}
 	
 	public String NAME;
 	public int RANK;
@@ -75,14 +72,14 @@ public abstract class Piece implements Serializable
 		
 		if(TEAM==Team.BLUE){
 			image ="."+File.separator+"src"+File.separator+
-				"Image"+File.separator+"BlueTeam"+File.separator+NAME+".png";
+				"Image"+File.separator+"BlueTeam"+File.separator+NAME+".jpg";
 		}
 		else{
 			image ="."+File.separator+"src"+File.separator+
 					"Image"+File.separator+"RedTeam"+File.separator+"S.png";
 			
 			String shownImage = "."+File.separator+"src"+File.separator+
-					"Image"+File.separator+"RedTeam"+File.separator+NAME+".png";
+					"Image"+File.separator+"RedTeam"+File.separator+NAME+".jpg";
 			
 			SHOWN_IMAGE = new ImageIcon(shownImage);
 		}

@@ -134,9 +134,9 @@ public class Window extends JFrame {
 	public Window(){
 		super();
 		Rectangle bounds = getMaxBounds();
-		super.setSize(bounds.width, bounds.height);
+		super.setSize(900,800 );
 		super.setTitle("Stratego");
-		super.setLocation(0, 0);
+		super.setLocation(bounds.width/2-450, bounds.height/2-400);
 		super.setVisible(true);
 		super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		super.setLocationRelativeTo(null);
@@ -189,14 +189,14 @@ public class Window extends JFrame {
 		buttonContinue.addActionListener(new ContinueListener());
 		
 		JPanel panelExt = new JPanel(new BorderLayout());
-		panelExt.add(Box.createRigidArea(new Dimension(560, 0)), BorderLayout.WEST);
-		panelExt.add(Box.createRigidArea(new Dimension(560, 0)), BorderLayout.EAST);
+		panelExt.add(Box.createRigidArea(new Dimension(300, 0)), BorderLayout.WEST);
+		panelExt.add(Box.createRigidArea(new Dimension(300, 0)), BorderLayout.EAST);
 		panelExt.add(Box.createRigidArea(new Dimension(0, 300)), BorderLayout.NORTH);
 		panelExt.add(Box.createRigidArea(new Dimension(0, 300)), BorderLayout.SOUTH);
 		
 		JPanel panel=new JPanel(new GridLayout(3, 0));
 		panel.add(buttonPlay);
-		panel.add(Box.createRigidArea(new Dimension(0, 75)));
+		panel.add(Box.createRigidArea(new Dimension(0, 25)));
 		panel.add(buttonContinue);
 		
 		

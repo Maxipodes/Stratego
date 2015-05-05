@@ -35,7 +35,6 @@ public class InfoPieceEnnemies  extends JLabel{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		System.out.println(team.charachter[ref].currentNumber+ " currentNumber");
 		String text = piece.NAME+" :  "+(piece.NUMBER-team.charachter[ref].currentNumber)+"/"+piece.NUMBER;
 		super.setText(text);
 	}
